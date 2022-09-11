@@ -60,7 +60,7 @@ public class ClassInstrumenter extends ClassProbesVisitor {
                                      final String desc, final String signature,
                                      final String[] exceptions) {
         if (DiffAnalyzer.getInstance().containsMethod(className, name, desc)) {
-//            System.out.println("class:" + className + "  method:" + name + "  desc:" + desc + "  has insert probes");
+            System.out.println("class:" + className + "  method:" + name + "  desc:" + desc + "  has insert probes");
 
             InstrSupport.assertNotInstrumented(name, className);
 

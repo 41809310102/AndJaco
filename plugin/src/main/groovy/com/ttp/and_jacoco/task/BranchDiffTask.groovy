@@ -1,15 +1,24 @@
 package com.ttp.and_jacoco.task
 
-
+import com.android.ddmlib.Log
 import com.android.utils.FileUtils
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.report.ReportGenerator
 import com.ttp.and_jacoco.util.Utils
+import okhttp3.Call
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 import org.codehaus.groovy.runtime.IOGroovyMethods
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.jacoco.core.data.MethodInfo
 import org.jacoco.core.diff.DiffAnalyzer
+
+import javax.security.auth.callback.Callback
 
 class BranchDiffTask extends DefaultTask {
     def currentName//当前分支名
@@ -79,6 +88,50 @@ class BranchDiffTask extends DefaultTask {
 
         writerDiffMethodToFile()
     }
+
+    //从deff平台获取
+    def pullDiffadmin() {
+        //发送http请求,url 参数
+
+        //获取差异方法
+        //将差异方法写入文件
+        createDiffMethod(currentDir, branchDir)
+
+        writerDiffMethodToFile()
+    }
+
+
+   def syncUploadFiles(){
+       OkHttpClient client = buildHttpClient();
+       Log.d("正在从分支上获取不同数据信息");
+       RequestBody.create(MediaType.get("application/json"));
+       RequestBody body = new MultipartBody.Builder()
+               .addFormDataPart("baseVersion", "main")
+               .addFormDataPart("gitUrl", "https://git.bilibili.co/hujunjie02/android_code_jacooo.git")
+               .addFormDataPart("nowVersion", "dev")
+               .build();
+
+       Response response = client.newCall(new Request.Builder()
+               .url( "http://127.0.0.1:8085/api/code/diff/git/list")
+               .get(body)
+               .build()).execute();
+       String str = response.body().string();
+       print(str)
+    }
+
+
+//     static void main(String[] args){
+//
+////         if (response.code() == 200) {
+////             String str = response.body().string();
+//////            Log.d(TAG, " succ =" + str);
+////
+////         } else {
+//////            Log.e(TAG, " error =" + response.code());
+////         }
+//
+//     }
+
 
     def writerDiffToFile(List<String> diffFiles) {
         String path = "${project.buildDir.getAbsolutePath()}/outputs/diff/diffFiles.txt"
@@ -172,13 +225,14 @@ class BranchDiffTask extends DefaultTask {
 */
         DiffAnalyzer.getInstance().reset()
 //        DiffAnalyzer.getInstance().setResIdLines(ids)
+
+        //这里读取差异方法
         DiffAnalyzer.readClasses(currentDir, DiffAnalyzer.CURRENT)
         DiffAnalyzer.readClasses(branchDir, DiffAnalyzer.BRANCH)
-        DiffAnalyzer.getInstance().diff()
+        DiffAnalyzer.getInstance().diff() //调用差别方法
+        println("excludeMethod before diff.size=${DiffAnalyzer.getInstance().getDiffList().size()}") //打印差别方法的数量
 
-        println("excludeMethod before diff.size=${DiffAnalyzer.getInstance().getDiffList().size()}")
-
-        //excludeMethod
+        //excludeMethod  这里获取配置删除不需要检测的方法名称
         if (jacocoExtension.excludeMethod != null) {
             Iterator<MethodInfo> iterator = DiffAnalyzer.getInstance().getDiffList().iterator()
             while (iterator.hasNext()) {
@@ -187,6 +241,7 @@ class BranchDiffTask extends DefaultTask {
                     iterator.remove()
             }
         }
+        //这里输出筛选后的方法名称
         println("excludeMethod after diff.size=${DiffAnalyzer.getInstance().getDiffList().size()}")
 
     }
