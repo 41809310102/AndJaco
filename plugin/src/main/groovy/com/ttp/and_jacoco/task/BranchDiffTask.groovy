@@ -19,6 +19,7 @@ import org.jacoco.core.data.MethodInfo
 import org.jacoco.core.diff.DiffAnalyzer
 
 import javax.security.auth.callback.Callback
+import java.util.concurrent.TimeUnit
 
 class BranchDiffTask extends DefaultTask {
     def currentName//当前分支名
@@ -102,7 +103,10 @@ class BranchDiffTask extends DefaultTask {
 
 
    def syncUploadFiles(){
-       OkHttpClient client = buildHttpClient();
+       OkHttpClient client = new OkHttpClient.Builder()
+               .callTimeout(30, TimeUnit.SECONDS)
+               .readTimeout(30, TimeUnit.SECONDS)
+               .build();
        Log.d("正在从分支上获取不同数据信息");
        RequestBody.create(MediaType.get("application/json"));
        RequestBody body = new MultipartBody.Builder()
