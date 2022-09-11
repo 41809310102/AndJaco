@@ -75,6 +75,15 @@ public class DiffAnalyzer {
         }
     }
 
+    public void creatediff(MethodInfo cMethodInfo){
+        if(cMethodInfo == null){
+            return;
+        }else{
+            diffList.add(cMethodInfo);
+        }
+    }
+
+
     public boolean containsMethod(String className, String methodName, String desc) {
         for (MethodInfo methodInfo : diffList) {
             if (className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) && desc.equals(methodInfo.desc)) {
