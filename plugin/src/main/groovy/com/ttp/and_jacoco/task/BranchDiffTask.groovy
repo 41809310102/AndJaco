@@ -108,7 +108,8 @@ class BranchDiffTask extends DefaultTask {
                .readTimeout(30, TimeUnit.SECONDS)
                .build();
        print("now get diffadmin send http message letter start")
-       RequestBody.create(MediaType.get("application/json"));
+    //   RequestBody.create(MediaType.get("application/json"));
+       builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
        RequestBody body = new MultipartBody.Builder()
                .addFormDataPart("baseVersion", "main")
                .addFormDataPart("gitUrl", "https://git.bilibili.co/hujunjie02/android_code_jacooo.git")
