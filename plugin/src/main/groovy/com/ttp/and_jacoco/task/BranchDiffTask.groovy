@@ -107,7 +107,7 @@ class BranchDiffTask extends DefaultTask {
                .callTimeout(30, TimeUnit.SECONDS)
                .readTimeout(30, TimeUnit.SECONDS)
                .build();
-       Log.d("正在从分支上获取不同数据信息");
+       print("now get diffadmin send http message letter start")
        RequestBody.create(MediaType.get("application/json"));
        RequestBody body = new MultipartBody.Builder()
                .addFormDataPart("baseVersion", "main")
@@ -120,6 +120,7 @@ class BranchDiffTask extends DefaultTask {
                .get(body)
                .build()).execute();
        String str = response.body().string();
+       print("now get diffadmin send http message letter over")
        print(str)
     }
 
