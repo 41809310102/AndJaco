@@ -70,7 +70,7 @@ class JacocoTransform extends Transform {
                BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
                  //branchDiffTask.pullDiffClasses()
                 println "正在从diff平台拿取数据"
-                branchDiffTask.getdiff()
+                //branchDiffTask.getdiff()
             }
             //对diff方法插入探针
             //inject(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)

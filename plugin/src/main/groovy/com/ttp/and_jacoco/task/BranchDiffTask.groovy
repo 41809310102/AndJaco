@@ -292,11 +292,7 @@ class BranchDiffTask extends DefaultTask {
 
 
     //获取分支差异数据
-    def getdiff(){
-        def appName = android.defaultConfig.applicationId.replace(".","")
-        def host = jacocoExtension.host
-        def versionCode = android.defaultConfig.versionCode
-        def curl = "curl ${host}/WebServer/JacocoApi/queryEcFile?appName=${appName}&versionCode=${versionCode}"
+    static def getdiff(){
         println "正在获取diff平台分支不同数据"
     }
 
