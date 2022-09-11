@@ -1,0 +1,25 @@
+apply plugin: 'kotlin'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+group='com.github.ttpai'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation gradleApi()//gradle sdk
+    implementation localGroovy()//groovy sdk
+    implementation 'com.android.tools.build:gradle:4.0.1'
+    implementation 'com.android.tools.build:transform-api:1.5.0'
+    implementation group: 'org.ow2.asm', name: 'asm', version: '8.0.1'
+    implementation group: 'org.ow2.asm', name: 'asm-commons', version: '8.0.1'
+    implementation group: 'org.ow2.asm', name: 'asm-tree', version: '8.0.1'
+    implementation ('org.jacoco:org.jacoco.report:0.8.5'){
+        exclude group: 'org.jacoco', module: 'org.jacoco.core'
+    }
+    implementation project(path: ':jacoco-core')
+//    implementation "com.github.ttpai.AndJacoco:jacoco-core:0.0.5"
+
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
