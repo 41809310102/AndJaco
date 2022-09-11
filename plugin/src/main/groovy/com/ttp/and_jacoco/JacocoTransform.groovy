@@ -69,7 +69,7 @@ class JacocoTransform extends Transform {
                 //获取差异方法集
                BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
                  //branchDiffTask.pullDiffClasses()
-                println "正在从diff平台拿取数据"
+                println('send http to diff-admin and get difffile')
                 //branchDiffTask.getdiff()
             }
             //对diff方法插入探针
