@@ -109,18 +109,17 @@ class BranchDiffTask extends DefaultTask {
                .build();
        print("now get diffadmin send http message letter start")
     //   RequestBody.create(MediaType.get("application/json"));
-       RequestBody body = new MultipartBody.Builder()
-               .addFormDataPart("baseVersion", "main")
-               .addFormDataPart("gitUrl", "https://git.bilibili.co/hujunjie02/android_code_jacooo.git")
-               .addFormDataPart("nowVersion", "dev")
-               .build();
+       String baseVersion = "main";
+       String nowVersion = "dev";
+       String gitUrl = "https://git.bilibili.co/hujunjie02/android_code_jacooo.git"
+       String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion
        //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
        Response response = client.newCall(new Request.Builder()
-               .url( "http://127.0.0.1:8085/api/code/diff/git/list")
-               .get(body)
+               .url(url)
+               .get()
                .build()).execute();
        String str = response.body().string();
-       print("now get diffadmin send http message letter over")
+       print("now get dif fadmin send http message letter over")
        print(str)
     }
 
