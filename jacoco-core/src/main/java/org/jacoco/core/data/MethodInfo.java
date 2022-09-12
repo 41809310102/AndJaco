@@ -29,4 +29,52 @@ public class MethodInfo {
                 ", md5='" + md5 + '\'' +
                 '}';
     }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String[] getExceptions() {
+        return exceptions;
+    }
+
+    public void setExceptions(String[] exceptions) {
+        this.exceptions = exceptions;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
 }
