@@ -68,11 +68,12 @@ class JacocoTransform extends Transform {
               //  gitPush(jacocoExtension.gitPushShell, "jacoco auto commit")
                 //获取差异方法集
                BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
+             branchDiffTask.pullDiffClasses()
                 branchDiffTask.pullDiffadmin()
                 println('send http to diff-admin and get difffile')
             }
             //对diff方法插入探针
-            print("to diff addinject start")
+            print("to diff addinject start \n")
             inject(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
             print("to diff addinject end")
 
@@ -132,9 +133,10 @@ class JacocoTransform extends Transform {
     }
 
     def inject(TransformInvocation transformInvocation, def dirInputs, def jarInputs, List<String> includes) {
-
+        print("start inject of diff methods")
         ClassInjector injector = new ClassInjector(includes)
         if (!dirInputs.isEmpty()) {
+            print("if (!dirInputs.isEmpty())")
             dirInputs.each { dirInput ->
                 File dirOutput = transformInvocation.outputProvider.getContentLocation(dirInput.getName(),
                         dirInput.getContentTypes(), dirInput.getScopes(),
@@ -142,6 +144,7 @@ class JacocoTransform extends Transform {
                 FileUtils.mkdirs(dirOutput)
 
                 if (transformInvocation.incremental) {
+                    print(" if (transformInvocation.incremental)")
                     dirInput.changedFiles.each { entry ->
                         File fileInput = entry.getKey()
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(
@@ -159,7 +162,7 @@ class JacocoTransform extends Transform {
                                     injector.doClass(fileInput, fileOutputTransForm)
 
                                 } else {
-                                    FileUtils.copyFile(fileInput, fileOutputTransForm)
+                                    print("FileUtils.copyFile(fileInput, fileOutputTransForm)")
                                 }
                                 break
                             case Status.REMOVED:
