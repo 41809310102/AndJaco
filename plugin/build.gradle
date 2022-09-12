@@ -11,6 +11,8 @@ dependencies {
     implementation 'com.android.tools.build:gradle:4.0.1'
     implementation 'com.android.tools.build:transform-api:1.5.0'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    implementation 'com.alibaba:fastjson:1.2.55'
+    implementation 'com.alibaba:fastjson:1.1.72.android'
     implementation group: 'org.ow2.asm', name: 'asm', version: '8.0.1'
     implementation group: 'org.ow2.asm', name: 'asm-commons', version: '8.0.1'
     implementation group: 'org.ow2.asm', name: 'asm-tree', version: '8.0.1'
