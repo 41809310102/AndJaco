@@ -30,7 +30,7 @@ public class DiffAnalyzer {
     Set<String> diffClass = new HashSet<>();
 
     //int anim abc_tooltip_enter 0x7f01000a
-    List<String> resIdLines = new ArrayList<>();//资源id集
+    List<String> resIdLines = new ArrayList<>();
 
     private static DiffAnalyzer instance;
 
@@ -75,11 +75,16 @@ public class DiffAnalyzer {
         }
     }
 
-    public void creatediff(MethodInfo cMethodInfo){
-        if(cMethodInfo == null){
+
+   //调用该方法装载不同类数据
+    public void creatediff(List<MethodInfo> list){
+        if(list.size()== 0 ){
             return;
         }else{
-            diffList.add(cMethodInfo);
+            for(MethodInfo cmethodInfo : list){
+                diffList.add(cmethodInfo);
+                diffClass.add(cmethodInfo.className);
+            }
         }
     }
 
