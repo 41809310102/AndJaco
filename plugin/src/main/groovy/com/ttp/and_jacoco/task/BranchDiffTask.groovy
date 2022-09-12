@@ -1,24 +1,21 @@
 package com.ttp.and_jacoco.task
 
-import com.android.ddmlib.Log
+import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson.TypeReference
 import com.android.utils.FileUtils
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.report.ReportGenerator
+import com.ttp.and_jacoco.result.CodeDiffResultVO
+import com.ttp.and_jacoco.result.MethodInfoResultVO
 import com.ttp.and_jacoco.util.Utils
-import okhttp3.Call
-import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.Response
 import org.codehaus.groovy.runtime.IOGroovyMethods
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.jacoco.core.data.MethodInfo
 import org.jacoco.core.diff.DiffAnalyzer
-
-import javax.security.auth.callback.Callback
 import java.util.concurrent.TimeUnit
 
 class BranchDiffTask extends DefaultTask {
@@ -93,48 +90,103 @@ class BranchDiffTask extends DefaultTask {
     //从deff平台获取
     def pullDiffadmin() {
         //发送http请求,url 参数
-
+        createDiffMethods(syncUploadFiles())
         //获取差异方法
-        //将差异方法写入文件
-        createDiffMethod(currentDir, branchDir)
-
-        writerDiffMethodToFile()
     }
 
 
-   def syncUploadFiles(){
+   def  syncUploadFiles(){
        OkHttpClient client = new OkHttpClient.Builder()
                .callTimeout(30, TimeUnit.SECONDS)
                .readTimeout(30, TimeUnit.SECONDS)
                .build();
-       print("now get diffadmin send http message letter start")
-    //   RequestBody.create(MediaType.get("application/json"));
+       System.out.println(("now get diffadmin send http message letter start"));
+       //   RequestBody.create(MediaType.get("application/json"));
        String baseVersion = "main";
-       String nowVersion = "dev";
-       String gitUrl = "https://git.bilibili.co/hujunjie02/android_code_jacooo.git"
-       String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion
+       String nowVersion = "debug";
+       String gitUrl = "https://git.bilibili.co/hujunjie02/test_android_demo.git";
+       String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
        //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
        Response response = client.newCall(new Request.Builder()
                .url(url)
                .get()
                .build()).execute();
+       //解析json对象
        String str = response.body().string();
-       print("now get dif fadmin send http message letter over")
-       print(str)
+       com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(str);
+       str = JSON.toJSONString(jsonObject.get("data"))
+       List<CodeDiffResultVO> passengerDetailsVOS = JSON.parseObject(str, new TypeReference<List<CodeDiffResultVO>>(){});
+       List<MethodInfo> getdifflist = new LinkedList<>()
+       for(CodeDiffResultVO codeDiffResultVO : passengerDetailsVOS){
+           System.out.println(codeDiffResultVO.getClassFile())
+           String classname = codeDiffResultVO.getClassFile()
+           if(codeDiffResultVO.getMethodInfos().size()>0){
+               for(MethodInfoResultVO res: codeDiffResultVO.getMethodInfos()){
+                   MethodInfo methodInfo = new MethodInfo()
+                   methodInfo.setClassName(classname);
+                   methodInfo.setMethodName(res.getMethodName())
+                   methodInfo.setDesc(res.getParameters().toString()) //这里保存类的参数信息
+                   getdifflist.add(methodInfo)
+               }
+           }else{
+               MethodInfo methodInfo = new MethodInfo()
+               methodInfo.setClassName(classname);
+               methodInfo.setMethodName("") //默认是新的方法，全部标记
+               methodInfo.setDesc("") //默认无数据
+               getdifflist.add(methodInfo)
+           }
+       }
+       System.out.println("now get dif fadmin send http message letter over");
+       System.out.println("difflist size="+getdifflist.size());
+       return getdifflist
     }
 
 
-//     static void main(String[] args){
-//
-////         if (response.code() == 200) {
-////             String str = response.body().string();
-//////            Log.d(TAG, " succ =" + str);
-////
-////         } else {
-//////            Log.e(TAG, " error =" + response.code());
-////         }
-//
-//     }
+     static void main(String[] args){
+         OkHttpClient client = new OkHttpClient.Builder()
+                 .callTimeout(30, TimeUnit.SECONDS)
+                 .readTimeout(30, TimeUnit.SECONDS)
+                 .build();
+         System.out.println(("now get diffadmin send http message letter start"));
+         //   RequestBody.create(MediaType.get("application/json"));
+         String baseVersion = "main";
+         String nowVersion = "debug";
+         String gitUrl = "https://git.bilibili.co/hujunjie02/test_android_demo.git";
+         String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
+         //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
+         Response response = client.newCall(new Request.Builder()
+                 .url(url)
+                 .get()
+                 .build()).execute();
+         //解析json对象
+         String str = response.body().string();
+         com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(str);
+         str = JSON.toJSONString(jsonObject.get("data"))
+         List<CodeDiffResultVO> passengerDetailsVOS = JSON.parseObject(str, new TypeReference<List<CodeDiffResultVO>>(){});
+         List<MethodInfo> getdifflist = new LinkedList<>()
+         for(CodeDiffResultVO codeDiffResultVO : passengerDetailsVOS){
+             System.out.println(codeDiffResultVO.getClassFile())
+             String classname = codeDiffResultVO.getClassFile()
+             if(codeDiffResultVO.getMethodInfos().size()>0){
+                 for(MethodInfoResultVO res: codeDiffResultVO.getMethodInfos()){
+                     MethodInfo methodInfo = new MethodInfo()
+                     methodInfo.setClassName(classname);
+                     methodInfo.setMethodName(res.getMethodName())
+                     methodInfo.setDesc(res.getParameters().toString()) //这里保存类的参数信息
+                     getdifflist.add(methodInfo)
+                 }
+             }else{
+                 MethodInfo methodInfo = new MethodInfo()
+                 methodInfo.setClassName(classname);
+                 methodInfo.setMethodName("") //默认是新的方法，全部标记
+                 methodInfo.setDesc("") //默认无数据
+                 getdifflist.add(methodInfo)
+             }
+         }
+         System.out.println("now get dif fadmin send http message letter over")
+         System.out.println("difflist size="+getdifflist.size())
+         print("all data to see:" + getdifflist.toString())
+     }
 
 
     def writerDiffToFile(List<String> diffFiles) {
@@ -218,6 +270,25 @@ class BranchDiffTask extends DefaultTask {
         pces.closeStreams()
     }
 
+    //重写差异方法 2022-09-12 honyyi
+    def createDiffMethods(List<MethodInfo> list){
+        DiffAnalyzer.getInstance().reset() //将检测对象属性置为空
+        DiffAnalyzer.getInstance().creatediff(list)
+        //excludeMethod  这里获取配置删除不需要检测的方法名称
+        println("excludeMethod before diff.size=${DiffAnalyzer.getInstance().getDiffList().size()}") //打印差别方法的数量
+        if (jacocoExtension.excludeMethod != null) {
+            Iterator<MethodInfo> iterator = DiffAnalyzer.getInstance().getDiffList().iterator()
+            while (iterator.hasNext()) {
+                MethodInfo info = iterator.next();
+                if (jacocoExtension.excludeMethod.call(info))
+                    iterator.remove()
+            }
+        }
+        //这里输出筛选后的方法名称
+        println("excludeMethod after diff.size=${DiffAnalyzer.getInstance().getDiffList().size()}")
+    }
+
+
     def createDiffMethod(def currentDir, def branchDir) {
         //生成差异方法
 /*
@@ -230,7 +301,7 @@ class BranchDiffTask extends DefaultTask {
         DiffAnalyzer.getInstance().reset()
 //        DiffAnalyzer.getInstance().setResIdLines(ids)
 
-        //这里读取差异方法
+        //这里读取差异方法,并且将差异方法封装
         DiffAnalyzer.readClasses(currentDir, DiffAnalyzer.CURRENT)
         DiffAnalyzer.readClasses(branchDir, DiffAnalyzer.BRANCH)
         DiffAnalyzer.getInstance().diff() //调用差别方法
@@ -351,7 +422,7 @@ class BranchDiffTask extends DefaultTask {
 
 
     //获取分支差异数据
-    static def getdiff(){
+   def getdiff(){
         println "正在获取diff平台分支不同数据"
     }
 
