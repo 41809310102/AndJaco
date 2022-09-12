@@ -157,6 +157,7 @@ class JacocoTransform extends Transform {
                                 if (jacocoExtension.jacocoEnable &&
                                         DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
                                     injector.doClass(fileInput, fileOutputTransForm)
+
                                 } else {
                                     FileUtils.copyFile(fileInput, fileOutputTransForm)
                                 }
