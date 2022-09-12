@@ -68,7 +68,7 @@ class JacocoTransform extends Transform {
               //  gitPush(jacocoExtension.gitPushShell, "jacoco auto commit")
                 //获取差异方法集
                BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
-             branchDiffTask.pullDiffClasses()
+          //   branchDiffTask.pullDiffClasses()
                 branchDiffTask.pullDiffadmin()
                 println('send http to diff-admin and get difffile')
             }
