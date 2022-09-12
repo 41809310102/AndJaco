@@ -59,6 +59,7 @@ public class ClassInstrumenter extends ClassProbesVisitor {
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature,
                                      final String[] exceptions) {
+        System.out.println("当前要进行探针的类名"+className+ "method:" + name + "  desc:" + desc + "  has insert probes");
         if (DiffAnalyzer.getInstance().containsMethod(className, name, desc)) {
             System.out.println("class:" + className + "  method:" + name + "  desc:" + desc + "  has insert probes");
 
