@@ -56,6 +56,7 @@ public class ClassInjector extends ClassProcessor {
         }
     }
 
+
     @Override
     void processClass(File fileIn, File fileOut) throws IOException {
         if (shouldIncludeClass(fileIn)) {
