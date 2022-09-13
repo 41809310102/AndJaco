@@ -7,6 +7,7 @@ import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.report.ReportGenerator
 import com.ttp.and_jacoco.result.CodeDiffResultVO
 import com.ttp.and_jacoco.result.MethodInfoResultVO
+import com.ttp.and_jacoco.util.Juiutil
 import com.ttp.and_jacoco.util.Utils
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -125,67 +126,26 @@ class BranchDiffTask extends DefaultTask {
                    MethodInfo methodInfo = new MethodInfo()
                    methodInfo.setClassName(classname);
                    methodInfo.setMethodName(res.getMethodName())
-                   methodInfo.setDesc(res.getParameters().toString()) //这里保存类的参数信息
+                   methodInfo.setDesc(Juiutil.diffadminTran(res.getParameters())) //这里保存类的参数信息
                    getdifflist.add(methodInfo)
                }
            }else{
                MethodInfo methodInfo = new MethodInfo()
                methodInfo.setClassName(classname);
-               methodInfo.setMethodName("") //默认是新的方法，全部标记
-               methodInfo.setDesc("") //默认无数据
+               methodInfo.setMethodName("Class") //默认是新的方法，全部标记
+               methodInfo.setDesc("()") //默认无数据
                getdifflist.add(methodInfo)
            }
        }
-       System.out.println("now get dif fadmin send http message letter over");
-       System.out.println("difflist size="+getdifflist.size());
+       System.out.println("now get dif fadmin send http message letter over")
+       System.out.println("difflist size="+getdifflist.size())
+       print("all data to see:" + getdifflist.toString())
        return getdifflist
     }
 
 
      static void main(String[] args){
-         OkHttpClient client = new OkHttpClient.Builder()
-                 .callTimeout(30, TimeUnit.SECONDS)
-                 .readTimeout(30, TimeUnit.SECONDS)
-                 .build();
-         System.out.println(("now get diffadmin send http message letter start"));
-         //   RequestBody.create(MediaType.get("application/json"));
-         String baseVersion = "main";
-         String nowVersion = "debug";
-         String gitUrl = "https://git.bilibili.co/hujunjie02/test_android_demo.git";
-         String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
-         //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
-         Response response = client.newCall(new Request.Builder()
-                 .url(url)
-                 .get()
-                 .build()).execute();
-         //解析json对象
-         String str = response.body().string();
-         com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(str);
-         str = JSON.toJSONString(jsonObject.get("data"))
-         List<CodeDiffResultVO> passengerDetailsVOS = JSON.parseObject(str, new TypeReference<List<CodeDiffResultVO>>(){});
-         List<MethodInfo> getdifflist = new LinkedList<>()
-         for(CodeDiffResultVO codeDiffResultVO : passengerDetailsVOS){
-             System.out.println(codeDiffResultVO.getClassFile())
-             String classname = codeDiffResultVO.getClassFile()
-             if(codeDiffResultVO.getMethodInfos().size()>0){
-                 for(MethodInfoResultVO res: codeDiffResultVO.getMethodInfos()){
-                     MethodInfo methodInfo = new MethodInfo()
-                     methodInfo.setClassName(classname);
-                     methodInfo.setMethodName(res.getMethodName())
-                     methodInfo.setDesc(res.getParameters().toString()) //这里保存类的参数信息
-                     getdifflist.add(methodInfo)
-                 }
-             }else{
-                 MethodInfo methodInfo = new MethodInfo()
-                 methodInfo.setClassName(classname);
-                 methodInfo.setMethodName("") //默认是新的方法，全部标记
-                 methodInfo.setDesc("") //默认无数据
-                 getdifflist.add(methodInfo)
-             }
-         }
-         System.out.println("now get dif fadmin send http message letter over")
-         System.out.println("difflist size="+getdifflist.size())
-         print("all data to see:" + getdifflist.toString())
+
      }
 
 
