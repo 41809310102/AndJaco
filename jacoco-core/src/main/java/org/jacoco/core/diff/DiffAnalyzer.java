@@ -92,6 +92,9 @@ public class DiffAnalyzer {
 
     public boolean containsMethod(String className, String methodName, String desc) {
         for (MethodInfo methodInfo : diffList) {
+            System.out.println("DiffList :" +methodInfo.toString());
+            System.out.println("className:"+ className + " methodName"+ methodName + "desc"+Juiutil.JacocodescTran(desc));
+            System.out.println("=================================================================================");
             if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
                 return true;
             }
@@ -117,8 +120,9 @@ public class DiffAnalyzer {
 
 
 
-    public boolean containsClass(String className) {
-        System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
+    public boolean containsClass(String className){
+//
+//        System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
         return true;
     }
 
