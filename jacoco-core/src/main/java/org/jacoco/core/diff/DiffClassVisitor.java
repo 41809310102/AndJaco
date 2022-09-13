@@ -55,7 +55,7 @@ public class DiffClassVisitor extends ClassVisitor {
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-//        System.out.println("className:" + className + "  methodName:" + name + "  desc:" + desc + "  signature:" + signature);
+      System.out.println("className:" + className + "  methodName:" + name + "  desc:" + desc + "  signature:" + signature);
         MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
         final MethodInfo methodInfo = new MethodInfo();
         methodInfo.className = className;
@@ -66,15 +66,14 @@ public class DiffClassVisitor extends ClassVisitor {
         mv = new MethodVisitor(Opcodes.ASM5, mv) {
             StringBuilder builder = new StringBuilder();
 
-            //开始访问方法体
+
             @Override
             public void visitCode() {
 //                System.out.println("visitCode");
                 super.visitCode();
             }
 
-            //访问方法一个参数
-            //todo 需要验证哪些代码会调用这个方法
+
             @Override
             public void visitParameter(String name, int access) {
                 builder.append(name);
@@ -83,12 +82,12 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitParameter(name, access);
             }
 
-            //访问方法的一个注解
+
             //@TargetApi(21)
             //public static void Toast(Context context, String s) {
             //       ...
             //}
-            //todo 注解中的参数21不知道在哪里获取
+
             @Override
             public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
                 builder.append(desc);
@@ -97,9 +96,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 return super.visitAnnotation(desc, visible);
             }
 
-            //访问方法签名上的一个类型的注解
-            //不知道怎么访问这个，但是需要参与md5
-            //todo 需要验证哪些代码会调用这个方法
             @Override
             public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String desc, boolean visible) {
                 builder.append(typeRef);
@@ -110,7 +106,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 return super.visitTypeAnnotation(typeRef, typePath, desc, visible);
             }
 
-            //访问参数的注解，返回一个AnnotationVisitor可以访问该注解值;
+
             //public static void Toast(@Nullable Context context, @Nullable String s) {
             //     ...
             // }
@@ -123,17 +119,14 @@ public class DiffClassVisitor extends ClassVisitor {
                 return super.visitParameterAnnotation(parameter, desc, visible);
             }
 
-            //访问此方法的非标准属性
-            //不知道干嘛的，暂不参与md5
+
             @Override
             public void visitAttribute(Attribute attr) {
 //                System.out.println("visitAttribute--attr:" + attr.toString());
                 super.visitAttribute(attr);
             }
 
-            //访问方法局部变量的当前状态以及操作栈成员信息，方法栈必须是expanded 格式或者compressed格式,该方法必须在visitInsn方法前调用
-            //visitFrame--type:3  nLocal:0  local:[Ljava.lang.Object;@b071554  nStack:0  stack:[Ljava.lang.Object;@702b9ffd
-            //与方法体有关，需要参与MD5，排除local和stack
+
             @Override
             public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
                 builder.append(type);
@@ -143,8 +136,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitFrame(type, nLocal, local, nStack, stack);
             }
 
-            //访问零操作数指令
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitInsn(int opcode) {
                 builder.append(opcode);
@@ -152,8 +144,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitInsn(opcode);
             }
 
-            //访问数值类型指令
-            //与方法体有关，需要参与md5
             @Override
             public void visitIntInsn(int opcode, int operand) {
                 builder.append(opcode);
@@ -162,8 +152,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitIntInsn(opcode, operand);
             }
 
-            //访问本地变量类型指令
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitVarInsn(int opcode, int var) {
                 builder.append(opcode);
@@ -172,8 +161,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitVarInsn(opcode, var);
             }
 
-            //访问类型指令，类型指令会把类的内部名称当成参数Type
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitTypeInsn(int opcode, String type) {
                 builder.append(opcode);
@@ -182,8 +170,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitTypeInsn(opcode, type);
             }
 
-            //域操作指令，用来加载或者存储对象的Field；
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitFieldInsn(int opcode, String owner, String name, String desc) {
                 builder.append(opcode);
@@ -194,8 +181,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitFieldInsn(opcode, owner, name, desc);
             }
 
-            //问方法操作指令
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
                 builder.append(opcode);
@@ -207,8 +193,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitMethodInsn(opcode, owner, name, desc, itf);
             }
 
-            //访问一个invokedynamic指令
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitInvokeDynamicInsn(String name, String desc, Handle bsm, Object... bsmArgs) {
                 builder.append(name);
@@ -218,8 +203,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
             }
 
-            //访问比较跳转指令
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitJumpInsn(int opcode, Label label) {
                 builder.append(opcode);
@@ -227,27 +211,24 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitJumpInsn(opcode, label);
             }
 
-            //访问label，当会在调用该方法后访问该label标记一个指令
-            //不作为方法md5的条件
+
             @Override
             public void visitLabel(Label label) {
                 super.visitLabel(label);
             }
 
-            //访问ldc指令，也就是访问常量池索引
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitLdcInsn(Object cst) {
 //                System.out.println("visitLdcInsn--cst:" + cst.toString() + " " + cst.getClass());
-                //资源id 每次编译都会变，所以不参与 0x7f010008
+
                 if (!(cst instanceof Integer) || !isResourceId((Integer)cst)) {
                     builder.append(cst.toString());
                 }
                 super.visitLdcInsn(cst);
             }
 
-            //访问本地变量索引增加指令
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitIincInsn(int var, int increment) {
                 builder.append(var);
@@ -256,8 +237,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitIincInsn(var, increment);
             }
 
-            //访问switch跳转指令
-            //与方法体有关，需要参与md5
             @Override
             public void visitTableSwitchInsn(int min, int max, Label dflt, Label... labels) {
                 builder.append(min);
@@ -266,8 +245,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitTableSwitchInsn(min, max, dflt, labels);
             }
 
-            //访问查询跳转指令
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitLookupSwitchInsn(Label dflt, int[] keys, Label[] labels) {
                 if (keys != null && keys.length > 0) {
@@ -281,8 +259,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitLookupSwitchInsn(dflt, keys, labels);
             }
 
-            //访问多维数组指令
-            //与方法体有关，需要参与md5
             @Override
             public void visitMultiANewArrayInsn(String desc, int dims) {
                 builder.append(desc);
@@ -291,8 +267,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitMultiANewArrayInsn(desc, dims);
             }
 
-            //访问指令注解，必须在访问注解之后调用
-            //与方法体有关，需要参与md5
             @Override
             public AnnotationVisitor visitInsnAnnotation(int typeRef, TypePath typePath, String desc, boolean visible) {
                 builder.append(typeRef);
@@ -303,8 +277,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 return super.visitInsnAnnotation(typeRef, typePath, desc, visible);
             }
 
-            //方法try--catch块
-            //与方法体有关，需要参与md5,只需将type加入即可
             @Override
             public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
                 builder.append(type);
@@ -312,8 +284,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitTryCatchBlock(start, end, handler, type);
             }
 
-            //访问try...catch块上异常处理的类型注解，必须在调用visitTryCatchBlock之后调用;
-            //与方法体有关，需要参与md5
             @Override
             public AnnotationVisitor visitTryCatchAnnotation(int typeRef, TypePath typePath, String desc, boolean visible) {
                 builder.append(typeRef);
@@ -324,8 +294,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 return super.visitTryCatchAnnotation(typeRef, typePath, desc, visible);
             }
 
-            //访问局部变量描述
-            //与方法体有关，需要参与md5
+
             @Override
             public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
                 builder.append(name);
@@ -336,8 +305,6 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitLocalVariable(name, desc, signature, start, end, index);
             }
 
-            //访问局部变量类型的注释
-            //与方法体有关，需要参与md5，注意Lable相关的都不需要加入
             @Override
             public AnnotationVisitor visitLocalVariableAnnotation(int typeRef, TypePath typePath, Label[] start, Label[] end, int[] index, String desc, boolean visible) {
                 builder.append(typeRef);
@@ -353,15 +320,13 @@ public class DiffClassVisitor extends ClassVisitor {
                 return super.visitLocalVariableAnnotation(typeRef, typePath, start, end, index, desc, visible);
             }
 
-            //访问行号描述
-            //不作为方法md5的条件
+
             @Override
             public void visitLineNumber(int line, Label start) {
                 super.visitLineNumber(line, start);
             }
 
-            //最大的操作数栈与本地变量表个数
-            //需要参与md5
+
             @Override
             public void visitMaxs(int maxStack, int maxLocals) {
                 builder.append(maxStack);
@@ -370,7 +335,7 @@ public class DiffClassVisitor extends ClassVisitor {
                 super.visitMaxs(maxStack, maxLocals);
             }
 
-            //方法访问结束
+
             @Override
             public void visitEnd() {
                 String md5 = "";
@@ -390,7 +355,7 @@ public class DiffClassVisitor extends ClassVisitor {
 
     private boolean isResourceId(Integer id) {
         String hex=String.format("0x%8s",Integer.toHexString(id)).replace(' ','0');
-        return hex.startsWith("0x7f");//0x7f 一定为id，不参与diff
+        return hex.startsWith("0x7f");
     }
 
     @Override

@@ -137,6 +137,7 @@ public class DiffAnalyzer {
             } else {
                 if (classFile.getName().endsWith(".class")) {
                     try {
+                        System.out.println("sssss");
                         doClass(classFile, type);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -180,5 +181,10 @@ public class DiffAnalyzer {
 
     public void setResIdLines(List<String> resIdLines) {
         this.resIdLines = resIdLines;
+    }
+
+
+    public static void main(String[] args) {
+        DiffAnalyzer.readClasses("com\\andjacoco\\demo\\FourthHello.java",DiffAnalyzer.CURRENT);
     }
 }
