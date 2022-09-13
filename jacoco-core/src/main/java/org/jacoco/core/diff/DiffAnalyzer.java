@@ -91,10 +91,12 @@ public class DiffAnalyzer {
 
 
     public boolean containsMethod(String className, String methodName, String desc) {
+        System.out.println("difflist desction:------>");
+        for(MethodInfo ks: diffList){
+            System.out.println(ks.toString());
+        }
+        System.out.println("now containsMethod size =>"+diffList.size());
         for (MethodInfo methodInfo : diffList) {
-            System.out.println("DiffList :" +methodInfo.toString());
-            System.out.println("className:"+ className + " methodName"+ methodName + "desc"+Juiutil.JacocodescTran(desc));
-            System.out.println("=================================================================================");
             if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
                 return true;
             }
@@ -103,6 +105,9 @@ public class DiffAnalyzer {
                 if( className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)){
                     return true;
                 }else{
+                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+deschead);
+                    System.out.println("DiffList :" +methodInfo.toString());
+                    System.out.println("=================================================================================");
                     return false;
                 }
             }else{
@@ -110,14 +115,16 @@ public class DiffAnalyzer {
                 if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) && desjocctran.equals(methodInfo.desc)){
                     return true;
                 }else{
+                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+desjocctran);
+                    System.out.println("DiffList :" +methodInfo.toString());
+                    System.out.println("=================================================================================");
                     return false;
                 }
             }
         }
+
         return false;
     }
-
-
 
 
     public boolean containsClass(String className){
@@ -206,6 +213,7 @@ public class DiffAnalyzer {
 
 
     public static void main(String[] args) {
-        DiffAnalyzer.readClasses("com\\andjacoco\\demo\\FourthHello.java",DiffAnalyzer.CURRENT);
+       String str = "()V";
+        System.out.println(str.substring(0,2));
     }
 }
