@@ -119,7 +119,7 @@ public class DiffAnalyzer {
 
     public boolean containsClass(String className) {
         System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
-        return diffClass.contains(className);
+        return true;
     }
 
     public void reset() {
