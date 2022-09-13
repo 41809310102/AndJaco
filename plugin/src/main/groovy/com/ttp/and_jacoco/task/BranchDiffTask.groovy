@@ -31,7 +31,7 @@ class BranchDiffTask extends DefaultTask {
 
         //生成差异报告
         println "pullDiffClasses start"
-        pullDiffClasses()
+        pullDiffadmin()
         println "pullDiffClasses end"
 
         if (jacocoExtension.reportDirectory == null) {
