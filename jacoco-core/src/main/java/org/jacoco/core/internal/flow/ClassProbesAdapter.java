@@ -61,9 +61,8 @@ public class ClassProbesAdapter extends ClassVisitor
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature,
                                      final String[] exceptions) {
-        System.out.println("当前要进行探针的类名"+className+ "method:" + name + "  desc:" + desc + "  has insert probes");
         if (DiffAnalyzer.getInstance().containsMethod(className, name, desc)) {
-//        if ("com/example/jacoco_plugin/Hello".equals(className) && ("()V".equals(desc) && "lambda$hello$0".equals(name)) || ("()V".equals(desc) && "hello".equals(name))) {
+            System.out.println("found diffclass:"+className+ "   method:" + name + "  desc:" + desc + "  has insert probes");
             final MethodProbesVisitor methodProbes;
             final MethodProbesVisitor mv = (MethodProbesVisitor) cv.visitMethod(access, name, desc,
                     signature, exceptions);
