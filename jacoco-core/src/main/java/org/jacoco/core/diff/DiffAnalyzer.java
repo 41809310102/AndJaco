@@ -2,6 +2,7 @@ package org.jacoco.core.diff;
 
 
 import org.jacoco.core.data.MethodInfo;
+import org.jacoco.core.tools.Juiutil;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
@@ -91,18 +92,34 @@ public class DiffAnalyzer {
 
     public boolean containsMethod(String className, String methodName, String desc) {
         for (MethodInfo methodInfo : diffList) {
-            if (className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) && desc.equals(methodInfo.desc)) {
+            if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
                 return true;
+            }
+            String deschead = desc.substring(0,2);
+            if(deschead.equals("()")){
+                if( className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                String desjocctran = Juiutil.JacocodescTran(desc);
+                if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) && desjocctran.equals(methodInfo.desc)){
+                    return true;
+                }else{
+                    return false;
+                }
             }
         }
         return false;
     }
 
 
+
+
     public boolean containsClass(String className) {
-        System.out.println("put :"+ className);
         System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
-        return true;
+        return diffClass.contains(className);
     }
 
     public void reset() {
