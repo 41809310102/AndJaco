@@ -2,6 +2,8 @@ package com.ttp.and_jacoco;
 
 import com.alibaba.fastjson.*;
 import com.ttp.and_jacoco.result.CodeDiffResultVO;
+import com.ttp.and_jacoco.result.MethodInfoResultVO;
+import com.ttp.and_jacoco.util.Juiutil;
 
 
 import org.gradle.internal.impldep.com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,8 +38,12 @@ public class Deno {
         JSONObject jsonObject = JSON.parseObject(str);
         str = JSON.toJSONString(jsonObject.get("data"));
         List<CodeDiffResultVO> passengerDetailsVOS = JSON.parseObject(str, new TypeReference<List<CodeDiffResultVO>>(){});
+
         for(CodeDiffResultVO codeDiffResultVO : passengerDetailsVOS){
-            System.out.println(codeDiffResultVO.getClassFile());
+            List<MethodInfoResultVO> resultVOS = codeDiffResultVO.getMethodInfos();
+            for(MethodInfoResultVO m: resultVOS){
+                System.out.println(Juiutil.diffadminTran(m.getParameters()));
+            }
         }
         System.out.println(("now get dif fadmin send http message letter over"));
     }
@@ -48,5 +54,23 @@ public class Deno {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private Boolean test(String str, int a){
+
+      return true;
+    }
+
+
+
+    private Boolean test(String str, String a){
+      return true;
+    }
+
+
+
+    private Boolean demo(String str){
+        return true;
     }
 }
