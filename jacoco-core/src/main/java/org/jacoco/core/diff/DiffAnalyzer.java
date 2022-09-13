@@ -91,38 +91,32 @@ public class DiffAnalyzer {
 
 
     public boolean containsMethod(String className, String methodName, String desc) {
-        System.out.println("difflist desction:------>");
-        for(MethodInfo ks: diffList){
-            System.out.println(ks.toString());
-        }
         System.out.println("now containsMethod size =>"+diffList.size());
         for (MethodInfo methodInfo : diffList) {
             if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
+                System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+"Class");
+                System.out.println("DiffList :" +methodInfo.toString());
+                System.out.println("=================================================================================");
                 return true;
             }
             String deschead = desc.substring(0,2);
             if(deschead.equals("()")){
                 if( className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)){
-                    return true;
-                }else{
                     System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+deschead);
                     System.out.println("DiffList :" +methodInfo.toString());
                     System.out.println("=================================================================================");
-                    return false;
+                    return true;
                 }
             }else{
                 String desjocctran = Juiutil.JacocodescTran(desc);
                 if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) && desjocctran.equals(methodInfo.desc)){
-                    return true;
-                }else{
                     System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+desjocctran);
                     System.out.println("DiffList :" +methodInfo.toString());
                     System.out.println("=================================================================================");
-                    return false;
+                    return true;
                 }
             }
         }
-
         return false;
     }
 
