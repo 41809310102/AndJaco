@@ -122,6 +122,8 @@ public class DiffAnalyzer {
 
 
     public boolean containsClass(String className){
+        System.out.println("系统输入的类名：" + className);
+        diffClass.contains(className);
 //
 //        System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
         return true;

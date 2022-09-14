@@ -160,9 +160,7 @@ class JacocoTransform extends Transform {
                                 if (jacocoExtension.jacocoEnable &&
                                         DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
                                     injector.doClass(fileInput, fileOutputTransForm)
-
                                 } else {
-                                    print("FileUtils.copyFile(fileInput, fileOutputTransForm)")
                                     FileUtils.copyFile(fileInput, fileOutputTransForm)
                                 }
                                 break
