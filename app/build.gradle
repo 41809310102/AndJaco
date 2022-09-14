@@ -92,7 +92,7 @@ dependencies {
         exclude group: 'org.jacoco', module: 'org.jacoco.core'
     }
 
-    debugImplementation "com.github.ttpai.AndJacoco:rt:0.0.6"
-    releaseImplementation "com.github.ttpai.AndJacoco:rt-no-op:0.0.6"
+    implementation 'com.github.41809310102.AndJaco:rt:hy0.1.1'
+  //  implementation 'com.github.41809310102.AndJaco:rt-no-op:hy0.1.1'
 
 }

@@ -40,22 +40,17 @@ public class CodeCoverageManager {
     private static final String TAG = "CodeCoverageManager";
 
 
-    public static void init(Context context,String serverHost){
-       String path=context.getFilesDir().getAbsolutePath();
-        APP_NAME=context.getPackageName().replace(".","");
-        versionCode=getVersion(context);
+
+    public static void init(String filePathphone, String appname, String serverHost){
+        Log.d(TAG, "create coverage file in jacoco---------------------------");
+        APP_NAME=appname.replace(".","");
+        versionCode=200;
         if(serverHost!=null)
             URL_HOST=serverHost;
-
-        dirPath = path + "/jacoco/" + versionCode + "/";
-        File dir = new File(dirPath);
-        if (!dir.exists()) dir.mkdirs();
-        filePath = dirPath + UUID.randomUUID().toString() + "_" + System.currentTimeMillis() + ".ec";
-
-        File f = new File(filePath);
-        Log.d(TAG, filePath + " canRead=" + f.canRead() + " canWrite=" + f.canWrite());
-
+        dirPath  = "/mnt/sdcard/"+appname+"/";
+        filePath = filePathphone;
     }
+
 
     public static void generateCoverageFile() {
         sInstance.writeToFile();
@@ -83,11 +78,10 @@ public class CodeCoverageManager {
      * 生成executionData
      */
     private void writeToFile() {
-
         if(filePath==null) return;
         OutputStream out = null;
         try {
-            out = new FileOutputStream(filePath, false);
+            out = new FileOutputStream(filePath, true);
             IAgent agent = RT.getAgent();
             out.write(agent.getExecutionData(false));
             Log.i(TAG, " generateCoverageFile write success");
@@ -172,4 +166,6 @@ public class CodeCoverageManager {
                 .build();
         return client;
     }
+
+
 }
