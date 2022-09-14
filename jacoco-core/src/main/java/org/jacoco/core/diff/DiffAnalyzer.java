@@ -122,12 +122,27 @@ public class DiffAnalyzer {
 
 
     public boolean containsClass(String className){
-        System.out.println("系统输入的类名：" + className);
-        diffClass.contains(className);
-//
+// com\example\test2\BuildConfig ->  com/example/test2/MainActivity
 //        System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
-        return true;
+        return diffClass.contains(checkname(className));
     }
+
+    //改造classlist类名描述
+    public String checkname(String name){
+        String str = "";
+        if(name.equals("") || name==null){
+            return name;
+        }else{
+            if(name.contains("\\")){
+             str =   name.replace('\\','/');
+            }else{
+                return name;
+            }
+        }
+        return str;
+    }
+
+
 
     public void reset() {
         currentList.clear();
@@ -207,9 +222,4 @@ public class DiffAnalyzer {
         this.resIdLines = resIdLines;
     }
 
-
-    public static void main(String[] args) {
-       String str = "()V";
-        System.out.println(str.substring(0,2));
-    }
 }
