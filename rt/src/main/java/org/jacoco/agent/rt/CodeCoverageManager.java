@@ -40,10 +40,9 @@ public class CodeCoverageManager {
     private static final String TAG = "CodeCoverageManager";
 
 
-    public static void init(String filePath, String packname,String serverHost){
-
+    public static void init(String filePath, String packname ,String serverHost){
         Log.d(TAG, "create coverage file in jacoco---------------------------");
-       String path=filePath;
+        String path=filePath;
         APP_NAME=packname.replace(".","");
         versionCode=0;
         if(serverHost!=null)

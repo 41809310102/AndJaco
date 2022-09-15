@@ -25,14 +25,14 @@ class BranchDiffTask extends DefaultTask {
 
     @TaskAction
     def getDiffClass() {
-        println "downloadEcData start"
-        downloadEcData()
-        println "downloadEcData end"
+        println "downloadEcData start..................."
+        downloadEcDatas()
+        println "downloadEcData end!!!!!!!"
 
         //生成差异报告
         println "pullDiffClasses start"
         pullDiffadmin()
-        println "pullDiffClasses end"
+        println "pullDiffClasses end!!!!!!"
 
         if (jacocoExtension.reportDirectory == null) {
             jacocoExtension.reportDirectory = "${project.buildDir.getAbsolutePath()}/outputs/report"
@@ -334,6 +334,16 @@ class BranchDiffTask extends DefaultTask {
     }
 
 
+    def downloadEcDatas(){
+        println("get downloadFile of  Ec  files  loading..................................")
+        if (jacocoExtension.execDir == null) {
+            jacocoExtension.execDir = "${project.buildDir}/jacoco/code-coverage/"
+        }
+        def dataDir = jacocoExtension.execDir
+        new File(dataDir).mkdirs()
+    }
+
+
     //下载ec数据文件
     def downloadEcData() {
         if (jacocoExtension.execDir == null) {
@@ -377,7 +387,6 @@ class BranchDiffTask extends DefaultTask {
             }
         }
         println "downloadData 下载完成"
-
     }
 
 
