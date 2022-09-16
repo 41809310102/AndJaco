@@ -26,13 +26,7 @@ class BranchDiffTask extends DefaultTask {
     @TaskAction
     def getDiffClass() {
         println "downloadEcData start..................."
-        if(jacocoExtension.downlocalec){
-            println "now download choose loacl Ec file"
-            downloadEcDatas()
-        }else{
-            println "now download choose from Ec-websever Ec file"
-            downloadEcData()
-        }
+        downloadEcDatas()
         println "downloadEcData end!!!!!!!"
 
         //生成差异报告
@@ -109,10 +103,10 @@ class BranchDiffTask extends DefaultTask {
                .build();
        System.out.println(("now get diffadmin send http message letter start"));
        //   RequestBody.create(MediaType.get("application/json"));
-       String baseVersion = jacocoExtension.branchName;
-       String nowVersion = jacocoExtension.nowVersion;
-       String gitUrl = jacocoExtension.gitUrl
-       String url = jacocoExtension.getdiffurl+"?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
+       String baseVersion = jacocoExtension.b;
+       String nowVersion = "debug";
+       String gitUrl = "https://git.bilibili.co/hujunjie02/test_android_demo.git";
+       String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
        //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
        Response response = client.newCall(new Request.Builder()
                .url(url)
@@ -359,11 +353,12 @@ class BranchDiffTask extends DefaultTask {
         new File(dataDir).mkdirs()
 
         def host = jacocoExtension.host
-        def url = jacocoExtension.url
-
+        def android = project.extensions.android
+        def appName = android.defaultConfig.applicationId.replace(".","")
+        def versionCode = android.defaultConfig.versionCode
 //        http://10.10.17.105:8080/WebServer/JacocoApi/queryEcFile?appName=dealer&versionCode=100
 
-        def curl = "curl ${host}${url}"
+        def curl = "curl ${host}/WebServer/JacocoApi/queryEcFile?appName=${appName}&versionCode=${versionCode}"
         println "curl = ${curl}"
         def text = curl.execute().text
         println "queryEcFile = ${text}"
