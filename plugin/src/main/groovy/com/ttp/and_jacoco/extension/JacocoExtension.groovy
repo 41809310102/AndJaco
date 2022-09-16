@@ -5,6 +5,10 @@ class JacocoExtension {
     boolean jacocoEnable
     //需要对比的分支名
     String branchName
+    //需要对比的开发分支
+    String nowVersion
+    //gitUrl
+    String gitUrl
     //exec文件路径，支持多个ec文件，自动合并
     String execDir
     //源码目录，支持多个源码
@@ -23,7 +27,12 @@ class JacocoExtension {
     private String gitBashPath
     //下载ec 的服务器
     String host
-
+    //下载ec的接口
+    String url
+    //下载方式，true代表手动导入ec文件，false表示从ec文件服务器保存
+    boolean downlocalec
+    //diff平台的接口数据
+    String getdiffurl
 
     /**
      * 类过滤器 返回 true 的将会被过滤
