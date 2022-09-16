@@ -4,8 +4,7 @@ class JacocoExtension {
     //jacoco开关，false时不会进行probe插桩
     boolean jacocoEnable
     //需要对比的分支名
-    String branchName1
-
+    String branchName
     //exec文件路径，支持多个ec文件，自动合并
     String execDir
     //源码目录，支持多个源码
@@ -24,6 +23,8 @@ class JacocoExtension {
     private String gitBashPath
     //下载ec 的服务器
     String host
+
+    String gitUrl
 
 
     /**
