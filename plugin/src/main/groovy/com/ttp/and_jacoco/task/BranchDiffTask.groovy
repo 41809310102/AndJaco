@@ -349,7 +349,7 @@ class BranchDiffTask extends DefaultTask {
         def dataDir = jacocoExtension.execDir
         new File(dataDir).mkdirs()
         def downEchost = jacocoExtension.downEchost
-        saveUrlAs(downEchost,dataDir+"/code.ec")
+        saveUrlAs(downEchost , dataDir+"/code.ec")
     }
 
 
@@ -366,7 +366,8 @@ class BranchDiffTask extends DefaultTask {
        try{
         // 建立链接
         URL httpUrl=new URL(url);
-        conn=(HttpURLConnection) httpUrl.openConnection();
+        conn=(HttpURLConnection)
+           httpUrl.openConnection();
         //以Post方式提交表单，默认get方式
         //conn.setRequestMethod("GET");
         conn.setDoInput(true);
@@ -383,9 +384,8 @@ class BranchDiffTask extends DefaultTask {
             filePath += "/";
         }
         //写入到文件（注意文件保存路径的后面一定要加上文件的名称）
-        fileOut = new FileOutputStream(filePath + System.currentTimeMillis() + url.substring(url.lastIndexOf(".")));
+        fileOut = new FileOutputStream(filePath);
         BufferedOutputStream bos = new BufferedOutputStream(fileOut);
-
         byte[] buf = new byte[4096];
         int length = bis.read(buf);
         //保存文件
