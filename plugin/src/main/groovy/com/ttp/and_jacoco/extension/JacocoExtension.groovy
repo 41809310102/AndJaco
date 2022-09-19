@@ -7,6 +7,7 @@ class JacocoExtension {
     String branchName
     String nowVersion
     String giturl //git地址
+    String downEchost //ec下载路径
     //exec文件路径，支持多个ec文件，自动合并
     String execDir
     //diff平台接口

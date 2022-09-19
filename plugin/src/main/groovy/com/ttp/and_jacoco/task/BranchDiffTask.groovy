@@ -102,12 +102,12 @@ class BranchDiffTask extends DefaultTask {
                .readTimeout(30, TimeUnit.SECONDS)
                .build();
        System.out.println(("now get diffadmin send http message letter start"));
-       //   RequestBody.create(MediaType.get("application/json"));
-       String baseVersion = jacocoExtension.branchName;
-       String nowVersion = jacocoExtension.nowVersion;
-       String gitUrl = jacocoExtension.giturl;
+       //RequestBody.create(MediaType.get("application/json"));
+       String baseVersion = jacocoExtension.branchName
+       String nowVersion = jacocoExtension.nowVersion
+       String gitUrl = jacocoExtension.giturl
        String gitdiffurl = jacocoExtension.gitdiffurl
-     //  http://127.0.0.1:8085/api/code/diff/git/list
+       //http://127.0.0.1:8085/api/code/diff/git/list
        String url = gitdiffurl+"?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
        //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
        Response response = client.newCall(new Request.Builder()
@@ -343,6 +343,37 @@ class BranchDiffTask extends DefaultTask {
         }
         def dataDir = jacocoExtension.execDir
         new File(dataDir).mkdirs()
+        def downEchost = jacocoExtension.downEchost
+        //http://10.10.17.105:8080/WebServer/JacocoApi/queryEcFile?appName=dealer&versionCode=100
+        def curl = "curl ${downEchost}"
+        println "curl = ${downEchost}"
+        def text = curl.execute().text
+        println "queryEcFile = ${text}"
+        text = text.substring(text.indexOf("[") + 1, text.lastIndexOf("]")).replace("]", "")
+
+        println "paths=${text}"
+
+        if ("".equals(text)) {
+            return
+        }
+        String[] paths = text.split(',')
+        println "下载executionData 文件 length=${paths.length}"
+
+        if (paths != null && paths.size() > 0) {
+            for (String path : paths) {
+                path = path.replace("\"", '')
+                def name = path.substring(path.lastIndexOf("/") + 1)
+                println "${path}"
+                def file = new File(dataDir, name)
+                if (file.exists() && file.length() > 0) //存在
+                    continue
+                println "downloadFile ${downEchost}${path}"
+                println "execute curl -o ${file.getAbsolutePath()} ${host}${path}"
+
+                "curl -o ${file.getAbsolutePath()} ${downEchost}${path}".execute().text
+            }
+        }
+        println "downloadData 下载完成"
     }
 
 
