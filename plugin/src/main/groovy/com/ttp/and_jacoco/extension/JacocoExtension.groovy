@@ -5,7 +5,8 @@ class JacocoExtension {
     boolean jacocoEnable
     //需要对比的分支名
     String branchName
-
+    String nowVersion
+    String giturl //git地址
     //exec文件路径，支持多个ec文件，自动合并
     String execDir
     //源码目录，支持多个源码
