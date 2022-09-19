@@ -35,7 +35,7 @@ class BranchDiffTask extends DefaultTask {
             downloadEcDatas()
             println "downloadEcData end!"
         }else{
-            println("正在读取本地文件........")
+            println("now choose local ec file........")
         }
         //生成差异报告
         println "pullDiffClasses start"
@@ -154,9 +154,6 @@ class BranchDiffTask extends DefaultTask {
     }
 
 
-     static void main(String[] args){
-
-     }
 
 
     def writerDiffToFile(List<String> diffFiles) {
@@ -352,38 +349,70 @@ class BranchDiffTask extends DefaultTask {
         def dataDir = jacocoExtension.execDir
         new File(dataDir).mkdirs()
         def downEchost = jacocoExtension.downEchost
-        //http://10.10.17.105:8080/WebServer/JacocoApi/queryEcFile?appName=dealer&versionCode=100
-        def curl = "curl ${downEchost}"
-        println "curl = ${downEchost}"
-        def text = curl.execute().text
-        println "queryEcFile = ${text}"
-        text = text.substring(text.indexOf("[") + 1, text.lastIndexOf("]")).replace("]", "")
+        def stream = new URL(downEchost).openStream()
+        def stream2 = new URL(downEchost).openConnection()
+        def total = stream2.getContentLength()
+        println "the file size is："+(total/1024/1024)+"M"
+        def len
+        def hasRead=0;
+        byte[] arr=new byte[1024]
+        def out=new FileOutputStream("code.ec")
+        def lastResult=0
+        while ((len=stream.read(arr))!=-1){
+            out.write(arr,0,len)
+            hasRead+=len
+            def decimal = hasRead/total*100+""
 
-        println "paths=${text}"
+            if(!decimal.equals("100"))
+                decimal=decimal.substring(0,decimal.indexOf("."))
 
-        if ("".equals(text)) {
-            return
-        }
-        String[] paths = text.split(',')
-        println "下载executionData 文件 length=${paths.length}"
+            if(lastResult.equals(Integer.parseInt(decimal))){
+                lastResult++
 
-        if (paths != null && paths.size() > 0) {
-            for (String path : paths) {
-                path = path.replace("\"", '')
-                def name = path.substring(path.lastIndexOf("/") + 1)
-                println "${path}"
-                def file = new File(dataDir, name)
-                if (file.exists() && file.length() > 0) //存在
-                    continue
-                println "downloadFile ${downEchost}${path}"
-                println "execute curl -o ${file.getAbsolutePath()} ${host}${path}"
-
-                "curl -o ${file.getAbsolutePath()} ${downEchost}${path}".execute().text
+                println "downing ："+ decimal+"%"
             }
         }
-        println "downloadData 下载完成"
+        stream.close()
+        out.close()
+        println("downloadData over！")
     }
 
+    static void main(String[] args){
+        JacocoExtension jacocoExtension
+        println("get downloadFile of  Ec  files  loading..................................")
+        if (jacocoExtension.execDir == null) {
+            jacocoExtension.execDir = "${project.buildDir}/jacoco/code-coverage/"
+        }
+        def dataDir = jacocoExtension.execDir
+        new File(dataDir).mkdirs()
+        def downEchost = jacocoExtension.downEchost
+        def stream = new URL(downEchost).openStream()
+        def stream2 = new URL(downEchost).openConnection()
+        def total = stream2.getContentLength()
+        println "the file size is："+(total/1024/1024)+"M"
+        def len
+        def hasRead=0;
+        byte[] arr=new byte[1024]
+        def out=new FileOutputStream("code.ec")
+        def lastResult=0
+        while ((len=stream.read(arr))!=-1){
+            out.write(arr,0,len)
+            hasRead+=len
+            def decimal = hasRead/total*100+""
+
+            if(!decimal.equals("100"))
+                decimal=decimal.substring(0,decimal.indexOf("."))
+
+            if(lastResult.equals(Integer.parseInt(decimal))){
+                lastResult++
+
+                println "downing ："+ decimal+"%"
+            }
+        }
+        stream.close()
+        out.close()
+        println("downloadData over！")
+    }
 
     //下载ec数据文件
     def downloadEcData() {
