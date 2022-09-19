@@ -103,7 +103,7 @@ class BranchDiffTask extends DefaultTask {
                .build();
        System.out.println(("now get diffadmin send http message letter start"));
        //   RequestBody.create(MediaType.get("application/json"));
-       String baseVersion = jacocoExtension.branchName1;
+       String baseVersion = jacocoExtension.branchName;
        String nowVersion = "debug";
        String gitUrl = "";
        String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
