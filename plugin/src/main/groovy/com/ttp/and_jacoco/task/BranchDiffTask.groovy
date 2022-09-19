@@ -352,7 +352,7 @@ class BranchDiffTask extends DefaultTask {
         def stream = new URL(downEchost).openStream()
         def stream2 = new URL(downEchost).openConnection()
         def total = stream2.getContentLength()
-        println "the file size is："+(total/1024/1024)+"M"
+        println "the file size is："+total+"k"
         def len
         def hasRead=0;
         byte[] arr=new byte[1024]
@@ -372,6 +372,14 @@ class BranchDiffTask extends DefaultTask {
                 println "downing ："+ decimal+"%"
             }
         }
+        def newFile = new File(dataDir+"/code.ec")
+        if (!newFile.exists()) {
+            newFile.createNewFile()
+            newFile.withWriter {
+                write -> write.append(out.getText())
+            }
+        }
+
         stream.close()
         out.close()
         println("downloadData over！")
