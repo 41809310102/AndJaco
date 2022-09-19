@@ -92,7 +92,7 @@ dependencies {
         exclude group: 'org.jacoco', module: 'org.jacoco.core'
     }
 
-    implementation 'com.github.41809310102.AndJaco:rt:AJbilibili0.0.1'
-  //  implementation 'com.github.41809310102.AndJaco:rt-no-op:hy0.1.1'
+    //implementation 'com.github.41809310102.AndJaco:rt:hy0.1.1'
+    //implementation 'com.github.41809310102.AndJaco:rt-no-op:hy0.1.1'
 
 }

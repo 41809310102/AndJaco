@@ -30,7 +30,7 @@ class BranchDiffTask extends DefaultTask {
         }
         def dataDir = jacocoExtension.execDir
         new File(dataDir).mkdirs()
-        if(jacocoExtension.isLocal){
+        if(!jacocoExtension.isLocal){
             println "downloadEcData start..................."
             downloadEcDatas()
             println "downloadEcData end!"
@@ -342,43 +342,6 @@ class BranchDiffTask extends DefaultTask {
 
 
     def downloadEcDatas(){
-        println("get downloadFile of  Ec  files  loading..................................")
-        if (jacocoExtension.execDir == null) {
-            jacocoExtension.execDir = "${project.buildDir}/jacoco/code-coverage/"
-        }
-        def dataDir = jacocoExtension.execDir
-        new File(dataDir).mkdirs()
-        def downEchost = jacocoExtension.downEchost
-        def stream = new URL(downEchost).openStream()
-        def stream2 = new URL(downEchost).openConnection()
-        def total = stream2.getContentLength()
-        println "the file size is："+(total/1024/1024)+"M"
-        def len
-        def hasRead=0;
-        byte[] arr=new byte[1024]
-        def out=new FileOutputStream("code.ec")
-        def lastResult=0
-        while ((len=stream.read(arr))!=-1){
-            out.write(arr,0,len)
-            hasRead+=len
-            def decimal = hasRead/total*100+""
-
-            if(!decimal.equals("100"))
-                decimal=decimal.substring(0,decimal.indexOf("."))
-
-            if(lastResult.equals(Integer.parseInt(decimal))){
-                lastResult++
-
-                println "downing ："+ decimal+"%"
-            }
-        }
-        stream.close()
-        out.close()
-        println("downloadData over！")
-    }
-
-    static void main(String[] args){
-        JacocoExtension jacocoExtension
         println("get downloadFile of  Ec  files  loading..................................")
         if (jacocoExtension.execDir == null) {
             jacocoExtension.execDir = "${project.buildDir}/jacoco/code-coverage/"
