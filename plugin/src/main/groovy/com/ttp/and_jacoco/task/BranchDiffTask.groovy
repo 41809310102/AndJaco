@@ -349,40 +349,57 @@ class BranchDiffTask extends DefaultTask {
         def dataDir = jacocoExtension.execDir
         new File(dataDir).mkdirs()
         def downEchost = jacocoExtension.downEchost
-        def stream = new URL(downEchost).openStream()
-        def stream2 = new URL(downEchost).openConnection()
-        def total = stream2.getContentLength()
-        println "the file size is："+total+"k"
-        def len
-        def hasRead=0;
-        byte[] arr=new byte[1024]
-        def out=new FileOutputStream("code.ec")
-        def lastResult=0
-        while ((len=stream.read(arr))!=-1){
-            out.write(arr,0,len)
-            hasRead+=len
-            def decimal = hasRead/total*100+""
+        saveUrlAs(downEchost,dataDir+"/code.ec")
+    }
 
-            if(!decimal.equals("100"))
-                decimal=decimal.substring(0,decimal.indexOf("."))
 
-            if(lastResult.equals(Integer.parseInt(decimal))){
-                lastResult++
-
-                println "downing ："+ decimal+"%"
-            }
+    def saveUrlAs(String url,String filePath){
+       println("fileName---->"+filePath)
+        File file=new File(filePath);
+      if (!file.exists()){
+        //如果文件夹不存在，则创建新的的文件夹
+        file.mkdirs();
+         }
+      FileOutputStream fileOut = null
+        HttpURLConnection conn = null;
+          InputStream inputStream = null;
+       try{
+        // 建立链接
+        URL httpUrl=new URL(url);
+        conn=(HttpURLConnection) httpUrl.openConnection();
+        //以Post方式提交表单，默认get方式
+        //conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+        // post方式不能使用缓存
+        conn.setUseCaches(false);
+        //连接指定的资源
+        conn.connect();
+        //获取网络输入流
+        inputStream=conn.getInputStream();
+        BufferedInputStream bis = new BufferedInputStream(inputStream);
+        //判断文件的保存路径后面是否以/结尾
+        if (!filePath.endsWith("/")) {
+            filePath += "/";
         }
-        def newFile = new File(dataDir+"/code.ec")
-        if (!newFile.exists()) {
-            newFile.createNewFile()
-            newFile.withWriter {
-                write -> write.append(out.getText())
-            }
-        }
+        //写入到文件（注意文件保存路径的后面一定要加上文件的名称）
+        fileOut = new FileOutputStream(filePath + System.currentTimeMillis() + url.substring(url.lastIndexOf(".")));
+        BufferedOutputStream bos = new BufferedOutputStream(fileOut);
 
-        stream.close()
-        out.close()
-        println("downloadData over！")
+        byte[] buf = new byte[4096];
+        int length = bis.read(buf);
+        //保存文件
+        while(length != -1) {
+            bos.write(buf, 0, length);
+            length = bis.read(buf);
+        }
+        bos.close()
+        bis.close()
+        conn.disconnect()}
+      catch (Exception e) {
+        e.printStackTrace();
+        System.out.println("downEcError!!!!!!!!!!!!!!!");
+     }
     }
 
     //下载ec数据文件
