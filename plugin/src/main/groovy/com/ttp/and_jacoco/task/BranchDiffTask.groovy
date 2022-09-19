@@ -25,10 +25,18 @@ class BranchDiffTask extends DefaultTask {
 
     @TaskAction
     def getDiffClass() {
-        println "downloadEcData start..................."
-        downloadEcDatas()
-        println "downloadEcData end!!!!!!!"
-
+        if (jacocoExtension.execDir == null) {
+            jacocoExtension.execDir = "${project.buildDir}/jacoco/code-coverage/"
+        }
+        def dataDir = jacocoExtension.execDir
+        new File(dataDir).mkdirs()
+        if(jacocoExtension.isLocal){
+            println "downloadEcData start..................."
+            downloadEcDatas()
+            println "downloadEcData end!"
+        }else{
+            println("正在读取本地文件........")
+        }
         //生成差异报告
         println "pullDiffClasses start"
         pullDiffadmin()
