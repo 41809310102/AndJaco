@@ -1,5 +1,9 @@
 package com.ttp.and_jacoco.task
 
+import okhttp3.Call
+import okhttp3.ResponseBody
+
+import java.net.HttpURLConnection
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.android.utils.FileUtils
@@ -349,57 +353,52 @@ class BranchDiffTask extends DefaultTask {
         def dataDir = jacocoExtension.execDir
         new File(dataDir).mkdirs()
         def downEchost = jacocoExtension.downEchost
-        saveUrlAs(downEchost , dataDir+"/code.ec")
+        saveUrlAs(downEchost)
     }
 
 
-    def saveUrlAs(String url,String filePath){
-       println("fileName---->"+filePath)
-        File file=new File(filePath);
-      if (!file.exists()){
-        //如果文件夹不存在，则创建新的的文件夹
-        file.mkdirs();
-         }
-      FileOutputStream fileOut = null
-        HttpURLConnection conn = null;
-          InputStream inputStream = null;
-       try{
-        // 建立链接
-        URL httpUrl=new URL(url);
-        conn=(HttpURLConnection)
-           httpUrl.openConnection();
-        //以Post方式提交表单，默认get方式
-        //conn.setRequestMethod("GET");
-        conn.setDoInput(true);
-        conn.setDoOutput(true);
-        // post方式不能使用缓存
-        conn.setUseCaches(false);
-        //连接指定的资源
-        conn.connect();
-        //获取网络输入流
-        inputStream=conn.getInputStream();
-        BufferedInputStream bis = new BufferedInputStream(inputStream);
-        //判断文件的保存路径后面是否以/结尾
-        if (!filePath.endsWith("/")) {
-            filePath += "/";
+    def saveUrlAs(String url)
+    {
+        ResponseBody result =null;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        try {
+            Response response = call.execute();
+            //            System.out.println(response.headers());
+            //            System.out.println(response.body().string());
+            result = response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        //写入到文件（注意文件保存路径的后面一定要加上文件的名称）
-        fileOut = new FileOutputStream(filePath);
-        BufferedOutputStream bos = new BufferedOutputStream(fileOut);
-        byte[] buf = new byte[4096];
-        int length = bis.read(buf);
-        //保存文件
-        while(length != -1) {
-            bos.write(buf, 0, length);
-            length = bis.read(buf);
+        //获取InputStream
+        InputStream is = result.byteStream();
+        WriteFile4InputStream(is)
+    }
+
+
+    //将InputStream写入到文件，成功返回true 失败返回false
+    def  WriteFile4InputStream(InputStream inputStream)
+    {
+        //默认为flase 即失败
+        boolean result = false;
+        try {
+            OutputStream os = new FileOutputStream(jacocoExtension.execDir+"/code.ec");
+            os.write(inputStream.readAllBytes());
+            os.close();
+            result = true;
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+            result = false;
         }
-        bos.close()
-        bis.close()
-        conn.disconnect()}
-      catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("downEcError!!!!!!!!!!!!!!!");
-     }
+       if(result){
+           println ("the ec file is down ok!")
+       }else{
+           println ("the ec file is down error!")
+       }
     }
 
     //下载ec数据文件
