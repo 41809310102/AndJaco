@@ -106,7 +106,9 @@ class BranchDiffTask extends DefaultTask {
        String baseVersion = jacocoExtension.branchName;
        String nowVersion = jacocoExtension.nowVersion;
        String gitUrl = jacocoExtension.giturl;
-       String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
+       String gitdiffurl = jacocoExtension.gitdiffurl
+     //  http://127.0.0.1:8085/api/code/diff/git/list
+       String url = gitdiffurl+"?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
        //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
        Response response = client.newCall(new Request.Builder()
                .url(url)

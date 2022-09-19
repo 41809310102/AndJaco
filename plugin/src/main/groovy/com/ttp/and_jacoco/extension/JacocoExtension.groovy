@@ -9,6 +9,8 @@ class JacocoExtension {
     String giturl //git地址
     //exec文件路径，支持多个ec文件，自动合并
     String execDir
+    //diff平台接口
+    String gitdiffurl
     //源码目录，支持多个源码
     List<String> sourceDirectories
     //class目录，支持多个class目录
