@@ -1,3 +1,4 @@
+include ':kotlintree'
 include ':rt-no-op'
 include ':rt'
 include ':jacoco-core'
