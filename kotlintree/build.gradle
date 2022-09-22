@@ -11,5 +11,4 @@ java {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.github.cretz.kastree:kastree-ast-jvm:0.4.0'
-    compile 'com.github.41809310102.AndJaco:plugin:AJKotlin0.0.1'
 }
