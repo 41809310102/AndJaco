@@ -25,10 +25,9 @@ import org.jacoco.core.diff.DiffAnalyzer
 import java.util.concurrent.TimeUnit
 
 class BranchDiffTask extends DefaultTask {
-    @Internal
     JacocoExtension jacocoExtension
     @Internal
-    def currentName = jacocoExtension.nowVersion
+    def currentName = 'debug'
     @TaskAction
     def getDiffClass() {
         if (jacocoExtension.execDir == null) {
