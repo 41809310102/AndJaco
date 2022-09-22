@@ -110,7 +110,7 @@ public class DiffAnalyzer {
                 }
             }else{
                 String desjocctran = Juiutil.JacocodescTran(desc);
-                if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) && desjocctran.equals(methodInfo.desc)){
+                if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) || desjocctran.equals(methodInfo.desc)||desjocctran.contains(methodInfo.desc)){
                     System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+desjocctran);
                     System.out.println("DiffList :" +methodInfo.toString());
                     System.out.println("=================================================================================");
