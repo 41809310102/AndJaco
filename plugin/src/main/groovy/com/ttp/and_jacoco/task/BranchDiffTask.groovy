@@ -25,10 +25,12 @@ import org.jacoco.core.diff.DiffAnalyzer
 import java.util.concurrent.TimeUnit
 
 class BranchDiffTask extends DefaultTask {
+
+    @Internal
     JacocoExtension jacocoExtension
     @Internal
     def currentName = 'debug'
-    @TaskAction
+    @Internal
     def getDiffClass() {
         if (jacocoExtension.execDir == null) {
             jacocoExtension.execDir = "${project.buildDir}/jacoco/code-coverage/"
