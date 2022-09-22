@@ -82,7 +82,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
-    implementation project(path: ':rt')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -92,7 +91,7 @@ dependencies {
         exclude group: 'org.jacoco', module: 'org.jacoco.core'
     }
 
-    //implementation 'com.github.41809310102.AndJaco:rt:hy0.1.1'
+    implementation 'com.github.41809310102.AndJaco:rt:AJbilibili0.1.1'
     //implementation 'com.github.41809310102.AndJaco:rt-no-op:hy0.1.1'
 
 }
