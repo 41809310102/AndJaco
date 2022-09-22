@@ -22,7 +22,6 @@ android {
                     from components.release
                     groupId = 'com.github.ttpai'
                     artifactId = 'rt'
-                    version = '1.1.0'
                 }
             }
         }
