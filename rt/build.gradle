@@ -5,18 +5,6 @@ plugins {
 }
 
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.github.ttpai'
-                artifactId = 'rt'
-                version = '1.1.0'
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion 29
@@ -25,6 +13,19 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
+    }
+
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = 'com.github.ttpai'
+                    artifactId = 'rt'
+                    version = '1.1.0'
+                }
+            }
+        }
     }
 
     compileOptions {
