@@ -2,6 +2,7 @@ package com.ttp.and_jacoco.task
 
 import okhttp3.Call
 import okhttp3.ResponseBody
+import org.gradle.api.tasks.Internal
 
 import java.net.HttpURLConnection
 import com.alibaba.fastjson.JSON
@@ -24,9 +25,10 @@ import org.jacoco.core.diff.DiffAnalyzer
 import java.util.concurrent.TimeUnit
 
 class BranchDiffTask extends DefaultTask {
-    def currentName//当前分支名
+    @Internal
     JacocoExtension jacocoExtension
-
+    @Internal
+    def currentName = jacocoExtension.nowVersion
     @TaskAction
     def getDiffClass() {
         if (jacocoExtension.execDir == null) {
