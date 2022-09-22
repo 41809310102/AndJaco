@@ -1,6 +1,22 @@
-apply plugin: 'com.android.library'
-//apply plugin: 'maven'
-apply plugin: 'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+}
+
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.ttpai'
+                artifactId = 'rt'
+                version = '1.1.0'
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 29
@@ -17,22 +33,10 @@ android {
     }
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.github.ttpai'
-                artifactId = 'rt'
-                version = '1.0.0'
-            }
-        }
-    }
-}
+
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
     compileOnly('com.squareup.okhttp3:okhttp:3.14.9')
 
 }
