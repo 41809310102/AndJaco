@@ -140,7 +140,7 @@ public class Juiutil {
 
 
     public static void main(String[] args) {
-        String str = "([BLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JIFLjava/util/List;[I[Ljava/lang/String;Ljava/util/HashMap;)V";
+        String str = "(Ljava/lang/Object;)Z";
         String r = "Ljava/lang/String";
         System.out.println(Juiutil.JacocodescTran(str));
     }
