@@ -23,7 +23,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.github.ttpai'
-                artifactId = 'ttpai'
+                artifactId = 'rt'
                 version = '1.0.0'
             }
         }
