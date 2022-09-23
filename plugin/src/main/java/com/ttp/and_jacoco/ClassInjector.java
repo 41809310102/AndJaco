@@ -15,6 +15,7 @@ package com.ttp.and_jacoco;
 
 
 
+import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.jacoco.core.diff.DiffAnalyzer;
 import org.jacoco.core.instr.Instrumenter;
 import org.jacoco.core.runtime.OfflineInstrumentationAccessGenerator;
@@ -33,7 +34,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import shadow.bundletool.com.android.utils.FileUtils;
+//import shadow.bundletool.com.android.utils.FileUtils;
 
 public class ClassInjector extends ClassProcessor {
 

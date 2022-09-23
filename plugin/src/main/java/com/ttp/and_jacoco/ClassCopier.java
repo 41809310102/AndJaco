@@ -1,6 +1,8 @@
 package com.ttp.and_jacoco;
 
-import com.android.utils.FileUtils;
+//import com.android.utils.FileUtils;
+
+import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
