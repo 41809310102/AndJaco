@@ -22,7 +22,7 @@ android {
                     from components.release
                     groupId = 'com.github.ttpai'
                     artifactId = 'rt'
-                    version = 'hycs1.1.8'
+                    version = 'hycs1.2.0'
                 }
             }
         }

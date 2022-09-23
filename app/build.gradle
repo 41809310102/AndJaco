@@ -53,8 +53,10 @@ android {
         }
 
         debug{
-           // buildConfigField "String", "host", "\"${jacocoCoverageConfig.host}\""
+            minifyEnabled false
+            // buildConfigField "String", "host", "\"${jacocoCoverageConfig.host}\""
 
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
