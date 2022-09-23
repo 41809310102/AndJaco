@@ -1,3 +1,4 @@
+include ':mylibraryj'
 include ':kotlintree'
 include ':rt-no-op'
 include ':rt'
