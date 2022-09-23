@@ -19,7 +19,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = 'com.github.ttpai'
                 artifactId = 'plugin'
-                version = 'hycs1.2.2'
+                version = 'hycs1.2.3'
                 from components.java
             }
         }
