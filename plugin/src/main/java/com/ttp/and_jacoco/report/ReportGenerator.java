@@ -38,7 +38,6 @@ import java.util.List;
 public class ReportGenerator {
 
     private final String title;
-
     private final String executionDataDir;
     private final List<File> classesDirectories;
     private final List<File> sourceDirectories;

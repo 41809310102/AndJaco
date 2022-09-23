@@ -7,7 +7,7 @@ import org.gradle.api.tasks.Internal
 import java.net.HttpURLConnection
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
-//import com.android.utils.FileUtils
+import com.android.utils.FileUtils
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.report.ReportGenerator
 import com.ttp.and_jacoco.result.CodeDiffResultVO

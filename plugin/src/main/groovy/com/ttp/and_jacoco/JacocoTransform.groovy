@@ -5,6 +5,7 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.task.BranchDiffTask
+import com.ttp.and_jacoco.task.CreateReport
 import com.ttp.and_jacoco.util.Utils
 import groovy.io.FileType
 import org.codehaus.groovy.runtime.IOGroovyMethods
@@ -67,8 +68,9 @@ class JacocoTransform extends Transform {
                 //提交classes 到git
                 //  gitPush(jacocoExtension.gitPushShell, "jacoco auto commit")
                 //获取差异方法集
-                BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
-                //branchDiffTask.pullDiffClasses()
+                CreateReport createReport = project.tasks.findByName('AndroidaddReport')
+                //branchDiffTask.pullDiffClasses
+                BranchDiffTask branchDiffTask =  project.tasks.findByName('generateReport')
                 branchDiffTask.pullDiffadmin()
                 println('send http to diff-admin and get difffile')
             }
