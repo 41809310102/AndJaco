@@ -1,9 +1,7 @@
-
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'maven-publish'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.ttpai'
 
 
 
@@ -22,19 +20,6 @@ android {
         }
     }
 
-
-    afterEvaluate {
-        publishing {
-            publications {
-                release(MavenPublication) {
-                    from components.release
-                    groupId = 'com.github.ttpai'
-                    artifactId = 'rt-no-op'
-                    version = 'hycs1.2.4'
-                }
-            }
-        }
-    }
 }
 
 
