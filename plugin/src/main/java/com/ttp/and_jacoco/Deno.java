@@ -26,7 +26,7 @@ public class Deno {
         //   RequestBody.create(MediaType.get("application/json"));
         String baseVersion = "main";
         String nowVersion = "debug";
-        String gitUrl = "https://git.bilibili.co/hujunjie02/test_android_demo.git";
+        String gitUrl = "";
         String url = "http://127.0.0.1:8085/api/code/diff/git/list?baseVersion="+baseVersion+"&gitUrl="+gitUrl+"&nowVersion="+nowVersion;
         //builder.addHeader("Content-Type", "application/x-www-form-urlencoded")
         Response response = client.newCall(new Request.Builder()
