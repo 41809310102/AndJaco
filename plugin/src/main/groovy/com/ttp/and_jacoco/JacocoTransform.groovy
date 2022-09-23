@@ -63,11 +63,11 @@ class JacocoTransform extends Transform {
         if (!dirInputs.isEmpty() || !jarInputs.isEmpty()) {
             if (jacocoExtension.jacocoEnable) {
                 //copy class到 app/classes
-              // copy(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
+                // copy(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
                 //提交classes 到git
-              //  gitPush(jacocoExtension.gitPushShell, "jacoco auto commit")
+                //  gitPush(jacocoExtension.gitPushShell, "jacoco auto commit")
                 //获取差异方法集
-               BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
+                BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
                 //branchDiffTask.pullDiffClasses()
                 branchDiffTask.pullDiffadmin()
                 println('send http to diff-admin and get difffile')

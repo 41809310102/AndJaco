@@ -12,9 +12,9 @@ class MainActivity : BaseActivity() {
 
 //        Hello.Toast(this, "hello132")
 
-        tv.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
-        }
+//        tv.setOnClickListener {
+//            startActivity(Intent(this, SecondActivity::class.java))
+//        }
 
         Hello.hello(false)
 
