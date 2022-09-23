@@ -2,7 +2,7 @@ package com.ttp.and_jacoco
 
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
-//import com.android.utils.FileUtils
+import com.android.utils.FileUtils
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.task.BranchDiffTask
 import com.ttp.and_jacoco.util.Utils
