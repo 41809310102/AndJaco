@@ -1,8 +1,10 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
-//apply plugin: 'maven-publish'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.ttpai'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+}
+
+
 
 android {
     compileSdkVersion 29
@@ -13,15 +15,29 @@ android {
         targetSdkVersion 29
     }
 
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = 'com.github.ttpai'
+                    artifactId = 'rt'
+                    version = 'hycs1.2.4'
+                }
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
     }
 }
+
+
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
     compileOnly('com.squareup.okhttp3:okhttp:3.14.9')
-
 
 }

@@ -7,7 +7,7 @@ import org.gradle.api.tasks.Internal
 import java.net.HttpURLConnection
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
-import com.android.utils.FileUtils
+//import com.android.utils.FileUtils
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.report.ReportGenerator
 import com.ttp.and_jacoco.result.CodeDiffResultVO
@@ -25,6 +25,7 @@ import org.jacoco.core.diff.DiffAnalyzer
 import java.util.concurrent.TimeUnit
 
 class BranchDiffTask extends DefaultTask {
+    @Internal
     JacocoExtension jacocoExtension
     @Internal
     def currentName = 'debug'
@@ -44,7 +45,7 @@ class BranchDiffTask extends DefaultTask {
         }
         //生成差异报告
         println "pullDiffClasses start"
-        pullDiffadmin()
+       // pullDiffadmin()
         println "pullDiffClasses end!!!!!!"
 
         if (jacocoExtension.reportDirectory == null) {
@@ -310,7 +311,7 @@ class BranchDiffTask extends DefaultTask {
         return list;
     }
 
-    List<String> getDiffFiles(String diff) {
+    List<String> getDiffFiles(def diff) {
         List<String> diffFiles = new ArrayList<>()
         if (diff == null || diff == '') {
             return diffFiles
@@ -358,7 +359,7 @@ class BranchDiffTask extends DefaultTask {
     }
 
 
-    def saveUrlAs(String url)
+    def saveUrlAs(def url)
     {
         ResponseBody result =null;
         OkHttpClient okHttpClient = new OkHttpClient();

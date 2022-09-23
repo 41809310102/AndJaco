@@ -1,8 +1,11 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
-//apply plugin: 'maven-publish'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.ttpai'
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+}
+
+
 
 android {
     compileSdkVersion 29
@@ -16,6 +19,20 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+        }
+    }
+
+
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = 'com.github.ttpai'
+                    artifactId = 'rt-no-op'
+                    version = 'hycs1.2.4'
+                }
+            }
         }
     }
 }

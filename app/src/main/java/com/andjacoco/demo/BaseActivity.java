@@ -4,7 +4,6 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.jacoco.agent.rt.CodeCoverageManager;
 
 /**
  * FileName: BaseActivity
@@ -18,7 +17,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("TAG","BaseActivity onDestroy");
-        CodeCoverageManager.generateCoverageFile();
+     //   CodeCoverageManager.generateCoverageFile();
 
     }
 }

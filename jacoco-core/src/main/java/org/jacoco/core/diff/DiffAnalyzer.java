@@ -18,13 +18,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 public class DiffAnalyzer {
     public static final int CURRENT = 0X10;
     public static final int BRANCH = 0X11;
 
     Set<MethodInfo> currentList = new HashSet<>();
     Set<MethodInfo> branchList = new HashSet<>();
-
     Set<MethodInfo> diffList = new HashSet<>();
 
     //com/ttp/newcore/network/CommonDataLoader$4

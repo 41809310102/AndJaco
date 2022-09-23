@@ -1,9 +1,30 @@
 apply plugin: 'kotlin'
 apply plugin: 'groovy'
-apply plugin: 'maven'
-//apply plugin: 'maven-publish'
-group='com.github.ttpai'
+//apply plugin: 'maven'
+apply plugin: 'maven-publish'
+//apply plugin: 'kotlin-android'
+apply plugin: 'java-library'
+apply plugin: 'java'
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.github.ttpai'
+                artifactId = 'plugin'
+                version = 'hycs1.2.4'
+                from components.java
+            }
+        }
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
