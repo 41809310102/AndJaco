@@ -14,7 +14,6 @@
 package com.ttp.and_jacoco;
 
 
-import com.android.utils.FileUtils;
 
 import org.jacoco.core.diff.DiffAnalyzer;
 import org.jacoco.core.instr.Instrumenter;
@@ -33,6 +32,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import shadow.bundletool.com.android.utils.FileUtils;
 
 public class ClassInjector extends ClassProcessor {
 
