@@ -3,7 +3,7 @@ apply plugin: 'kotlin'
 //apply plugin: 'maven'
 apply plugin: 'maven-publish'
 group='com.github.ttpai'
-
+version = 'hycs1.1.8'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
