@@ -28,7 +28,7 @@ class BranchDiffTask extends DefaultTask {
     @Internal
     JacocoExtension jacocoExtension
     @TaskAction
-    def getDiffClass() {
+    def checkDifClass() {
         if (jacocoExtension.execDir == null) {
             jacocoExtension.execDir = "${project.buildDir}/jacoco/code-coverage/"
         }
