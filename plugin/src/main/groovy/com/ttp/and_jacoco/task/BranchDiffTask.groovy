@@ -27,8 +27,6 @@ import java.util.concurrent.TimeUnit
 class BranchDiffTask extends DefaultTask {
     @Internal
     JacocoExtension jacocoExtension
-    @Internal
-    def currentName = 'debug'
     @TaskAction
     def getDiffClass() {
         if (jacocoExtension.execDir == null) {
@@ -120,7 +118,6 @@ class BranchDiffTask extends DefaultTask {
        return getdifflist
     }
 
-
     void readFiles(String dirPath, Closure closure) {
         File file = new File(dirPath);
         if (!file.exists()) {
@@ -190,10 +187,8 @@ class BranchDiffTask extends DefaultTask {
         InputStream is = result.byteStream();
         WriteFile4InputStream(is)
     }
-
     //将InputStream写入到文件，成功返回true 失败返回false
-    def  WriteFile4InputStream(InputStream inputStream)
-    {
+    def  WriteFile4InputStream(InputStream inputStream) {
         //默认为flase 即失败
         boolean result = false;
         try {
@@ -212,7 +207,6 @@ class BranchDiffTask extends DefaultTask {
            println ("the ec file is down error!")
        }
     }
-
     boolean deleteEmptyDir(File dir) {
         if (dir.isDirectory()) {
             boolean flag = true
