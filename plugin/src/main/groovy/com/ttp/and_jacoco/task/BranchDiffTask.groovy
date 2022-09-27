@@ -42,11 +42,11 @@ class BranchDiffTask extends DefaultTask {
         }else{
             println("now choose local ec file........")
         }
+        DiffAnalyzer.injutlist = []
         //生成差异报告
         println "pullDiffClasses start"
         pullDiffadmin()
         println "pullDiffClasses end!!!!!!"
-
         if (jacocoExtension.reportDirectory == null) {
             jacocoExtension.reportDirectory = "${project.buildDir.getAbsolutePath()}/outputs/report"
         }
