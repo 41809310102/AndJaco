@@ -16,5 +16,45 @@ public class GetinjutClass {
         this.jacodesc = jacodesc;
     }
 
+    public String getClassname() {
+        return classname;
+    }
 
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
+
+    public String getMothod() {
+        return mothod;
+    }
+
+    public void setMothod(String mothod) {
+        this.mothod = mothod;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getJacodesc() {
+        return jacodesc;
+    }
+
+    public void setJacodesc(String jacodesc) {
+        this.jacodesc = jacodesc;
+    }
+
+    @Override
+    public String toString() {
+        return "GetinjutClass{" +
+                "classname='" + classname + '\'' +
+                ", mothod='" + mothod + '\'' +
+                ", desc='" + desc + '\'' +
+                ", jacodesc='" + jacodesc + '\'' +
+                '}';
+    }
 }

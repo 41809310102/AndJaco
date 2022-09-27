@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class DiffAnalyzer {
     Set<MethodInfo> currentList = new HashSet<>();
     Set<MethodInfo> branchList = new HashSet<>();
     Set<MethodInfo> diffList = new HashSet<>();
-
+   public static List<GetinjutClass> injutlist = new LinkedList<>();
     //com/ttp/newcore/network/CommonDataLoader$4
     Set<String> diffClass = new HashSet<>();
 
@@ -95,27 +96,33 @@ public class DiffAnalyzer {
         System.out.println("********************"+"classname:"+className+" methodName:"+methodName+" desc:"+desc);
         for (MethodInfo methodInfo : diffList) {
             if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
-                System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+"Class");
-                System.out.println("DiffList :" +methodInfo.toString());
-                System.out.println("=================================================================================");
+//                System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+"Class");
+//                System.out.println("DiffList :" +methodInfo.toString());
+//                System.out.println("=================================================================================");
+                GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,"new class");
+                injutlist.add(getinjutClass);
                 return true;
             }
             //判断无参方法是否一致
             String deschead = desc.substring(0,2);
             if(deschead.equals("()")){
                 if( className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)){
-                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+deschead);
-                    System.out.println("DiffList :" +methodInfo.toString());
-                    System.out.println("=================================================================================");
+                    GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,methodInfo.desc);
+                    injutlist.add(getinjutClass);
+//                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+deschead);
+//                    System.out.println("DiffList :" +methodInfo.toString());
+//                    System.out.println("=================================================================================");
                     return true;
                 }
             }else{  //考虑到kt文件和java文件的jui表达不兼容问题
                 String desjocctran = Juiutil.JacocodescTran(desc);
                 if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)
                         &&(desjocctran.equals(methodInfo.desc)||desjocctran.contains(methodInfo.desc))){
-                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+desjocctran);
-                    System.out.println("DiffList :" +methodInfo.toString());
-                    System.out.println("=================================================================================");
+                    GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,methodInfo.desc);
+                    injutlist.add(getinjutClass);
+//                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+desjocctran);
+//                    System.out.println("DiffList :" +methodInfo.toString());
+//                    System.out.println("=================================================================================");
                     return true;
                 }
             }

@@ -3,6 +3,7 @@ package com.ttp.and_jacoco.task
 import okhttp3.Call
 import okhttp3.ResponseBody
 import org.gradle.api.tasks.Internal
+import org.jacoco.core.diff.GetinjutClass
 
 import java.net.HttpURLConnection
 import com.alibaba.fastjson.JSON
@@ -52,6 +53,10 @@ class BranchDiffTask extends DefaultTask {
         ReportGenerator generator = new ReportGenerator(jacocoExtension.execDir, toFileList(jacocoExtension.classDirectories),
                 toFileList(jacocoExtension.sourceDirectories), new File(jacocoExtension.reportDirectory));
         generator.create();
+        println("the project found ADD codes of java-files or kt-files to show that..... ")
+        for(GetinjutClass ob: DiffAnalyzer.injutlist){
+            println(ob.toString())
+        }
     }
 
     def toFileList(List<String> path) {
@@ -138,8 +143,6 @@ class BranchDiffTask extends DefaultTask {
             }
         }
     }
-
-
 
     //重写差异方法 2022-09-12 honyyi
     def createDiffMethods(List<MethodInfo> list){
