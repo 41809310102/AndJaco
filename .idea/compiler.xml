@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.7">
+      <module name="AndJaco.app" target="11" />
+      <module name="AndJaco.jacoco-core" target="1.8" />
+      <module name="AndJaco.plugin" target="1.8" />
+      <module name="AndJaco.rt" target="11" />
+      <module name="AndJaco.rt-no-op" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

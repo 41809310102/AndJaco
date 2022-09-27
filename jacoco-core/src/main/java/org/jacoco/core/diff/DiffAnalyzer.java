@@ -100,6 +100,7 @@ public class DiffAnalyzer {
                 System.out.println("=================================================================================");
                 return true;
             }
+            //判断无参方法是否一致
             String deschead = desc.substring(0,2);
             if(deschead.equals("()")){
                 if( className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)){
@@ -108,9 +109,10 @@ public class DiffAnalyzer {
                     System.out.println("=================================================================================");
                     return true;
                 }
-            }else{
+            }else{  //考虑到kt文件和java文件的jui表达不兼容问题
                 String desjocctran = Juiutil.JacocodescTran(desc);
-                if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName) || desjocctran.equals(methodInfo.desc)||desjocctran.contains(methodInfo.desc)){
+                if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)
+                        &&(desjocctran.equals(methodInfo.desc)||desjocctran.contains(methodInfo.desc))){
                     System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+desjocctran);
                     System.out.println("DiffList :" +methodInfo.toString());
                     System.out.println("=================================================================================");
