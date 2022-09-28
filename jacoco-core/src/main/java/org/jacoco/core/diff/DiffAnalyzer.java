@@ -139,6 +139,10 @@ public class DiffAnalyzer {
             System.out.println("now is compare class is name====> "+className);
             System.out.println("============================!=======================================!============");
         }
+
+        if(className.contains("Apptest")){
+            System.out.println("the computer is show class is "+ className);
+        }
         return res;
     }
 
