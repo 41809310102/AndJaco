@@ -85,7 +85,7 @@ public abstract class ClassProcessor {
 
     public static final String kotlinClass = File.separator + "kotlin-classes" + File.separator;
     public static final String javaClass = File.separator + "javac" + File.separator;
-
+    public static final String tranforms = File.separator + "transforms" + File.separator;
     public static String filePath2ClassName(File fileIn) {
         String path = fileIn.getAbsolutePath();
         //System.out.println(path);
@@ -97,9 +97,11 @@ public abstract class ClassProcessor {
         } else if (path.contains(kotlinClass)) {
             int index = path.indexOf(File.separator, path.indexOf(kotlinClass) + kotlinClass.length());
             className = path.substring(index + 1);
-        } else {
-          //    className = fileIn.getName(); 这里没有携带包路径
-            className = fileIn.getAbsolutePath();
+        } else if(path.contains(tranforms)){
+            String[] arr = path.split("/debug/0/");
+            className = arr[1];
+        }else {
+           className = fileIn.getName(); //这里没有携带包路径
         }
         return className;
     }
