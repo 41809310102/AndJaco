@@ -117,7 +117,6 @@ public class ReportGenerator {
     private void loadExecutionData() {
         execFileLoader = new ExecFileLoader();
         load(execFileLoader,executionDataDir);
-
     }
 
 

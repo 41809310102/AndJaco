@@ -143,9 +143,8 @@ class JacocoTransform extends Transform {
                         dirInput.getContentTypes(), dirInput.getScopes(),
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
-
                 if (transformInvocation.incremental) {
-                    print(" if (transformInvocation.incremental)")
+                    println("the transformInvocation.incremental is"+ transformInvocation.incremental)
                     dirInput.changedFiles.each { entry ->
                         File fileInput = entry.getKey()
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(
@@ -160,6 +159,7 @@ class JacocoTransform extends Transform {
                                 }
                                 if (jacocoExtension.jacocoEnable &&
                                         DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
+                                    println("injector=====")
                                     injector.doClass(fileInput, fileOutputTransForm)
                                 } else {
                                     FileUtils.copyFile(fileInput, fileOutputTransForm)
@@ -178,6 +178,7 @@ class JacocoTransform extends Transform {
                         }
                     }
                 } else {
+                    println("the transformInvocation.incremental is"+ transformInvocation.incremental)
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)

@@ -133,8 +133,16 @@ public class DiffAnalyzer {
 
     public boolean containsClass(String className){
 // com\example\test2\BuildConfig ->  com/example/test2/MainActivity
-//        System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
-        return diffClass.contains(checkname(className));
+        Boolean res = diffClass.contains(checkname(className));
+        if(res){
+            System.out.println("============================!======================================!=============");
+            System.out.println("now is compare class is name====> "+className);
+            System.out.println("============================!=======================================!============");
+        }else{
+            System.out.println("now is compare class is name====> "+className);
+        }
+        System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
+        return res;
     }
 
     //改造classlist类名描述
