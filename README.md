@@ -1,9 +1,10 @@
-# AndJacoco
-AndJacoco 是用于Android App的增量代码测试覆盖率工具，基于jacoco源码修改而来。相比于原版jacoco全量测试，AndJacoco只针对于
+# AndJaco
+AndJaco 是用于Android App的增量代码测试覆盖率工具，基于jacoco源码修改而来。相比于原版jacoco全量测试，AndJaco只针对于
 增量代码的覆盖测试。通过配置要对比的分支，得到两分支差异代码，来实现只对增量代码插入。输出html报告供查看。
 ### 接入
 因为在运行时会把ec数据文件上传到服务器，编译时会去下载，得到ec，所以要先配置服务器。  
-1、服务器布在局域网即可，服务器源码在WebServer 项目，把WebServer.war 放在tomcat 启动即可。  
+1、diff服务器布在局域网即可，diff平台是集成分析java文件和kotlin文件的解析服务器。
+2、Ec文件存储器保存生成的ec文件。
 2、在项目根目录的build.gradle添加jitpack仓库与插件  
 ```
 buildscript {
