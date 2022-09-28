@@ -138,10 +138,7 @@ public class DiffAnalyzer {
             System.out.println("============================!======================================!=============");
             System.out.println("now is compare class is name====> "+className);
             System.out.println("============================!=======================================!============");
-        }else{
-            System.out.println("now is compare class is name====> "+className);
         }
-        System.out.println("get containsClass reluse =>"+ diffClass.contains(className));
         return res;
     }
 
