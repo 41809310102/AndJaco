@@ -142,6 +142,7 @@ public class DiffAnalyzer {
 
         if(className.contains("Apptest")){
             System.out.println("the computer is show class is "+ className);
+            res = true;
         }
         return res;
     }
