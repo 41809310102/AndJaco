@@ -97,7 +97,8 @@ public abstract class ClassProcessor {
             int index = path.indexOf(File.separator, path.indexOf(kotlinClass) + kotlinClass.length());
             className = path.substring(index + 1);
         } else {
-            className = fileIn.getName();
+          //  className = fileIn.getName();
+            className = "com/bilibili/bilibililive/Apptest.java";
         }
         return className;
     }
