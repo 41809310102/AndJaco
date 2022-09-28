@@ -88,7 +88,7 @@ public abstract class ClassProcessor {
 
     public static String filePath2ClassName(File fileIn) {
         String path = fileIn.getAbsolutePath();
-        System.out.println(path);
+        //System.out.println(path);
         String className;
         if (path.contains(javaClass)) {
             String offset = File.separator + "classes" + File.separator;
