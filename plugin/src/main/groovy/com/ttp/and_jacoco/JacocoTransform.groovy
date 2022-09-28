@@ -179,6 +179,8 @@ class JacocoTransform extends Transform {
                     }
                 } else {
                     println("the transformInvocation.incremental is"+ transformInvocation.incremental)
+                    println("IS CLASS PATH:"+ ClassProcessor.javaClass);
+                    println("IS KOTLIN PATH:"+ ClassProcessor.kotlinClass);
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
