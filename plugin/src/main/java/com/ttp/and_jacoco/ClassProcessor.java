@@ -98,7 +98,7 @@ public abstract class ClassProcessor {
             className = path.substring(index + 1);
         } else {
           //  className = fileIn.getName();
-            className = "com/bilibili/bilibililive/Apptest.java";
+            className = "com/bilibili/bilibililive/Apptest.class";
         }
         return className;
     }
