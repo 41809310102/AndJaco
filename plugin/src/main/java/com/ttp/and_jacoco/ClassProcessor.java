@@ -88,6 +88,7 @@ public abstract class ClassProcessor {
 
     public static String filePath2ClassName(File fileIn) {
         String path = fileIn.getAbsolutePath();
+        System.out.println(path);
         String className;
         if (path.contains(javaClass)) {
             String offset = File.separator + "classes" + File.separator;
@@ -97,7 +98,8 @@ public abstract class ClassProcessor {
             int index = path.indexOf(File.separator, path.indexOf(kotlinClass) + kotlinClass.length());
             className = path.substring(index + 1);
         } else {
-            className = fileIn.getName();
+          //    className = fileIn.getName(); 这里没有携带包路径
+            className = fileIn.getAbsolutePath();
         }
         return className;
     }
