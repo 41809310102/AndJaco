@@ -76,9 +76,9 @@ class BranchDiffTask extends DefaultTask {
 
     def  syncUploadFiles(){
         OkHttpClient client = new OkHttpClient.Builder()
-                .callTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)//写入超时(单位:秒)
+                .callTimeout(300, TimeUnit.SECONDS)
+                .readTimeout(120, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)//写入超时(单位:秒)
                 .build();
         System.out.println(("now get diffadmin send http message letter start"));
         //RequestBody.create(MediaType.get("application/json"));
