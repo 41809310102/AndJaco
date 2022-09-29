@@ -116,7 +116,7 @@ class JacocoTransform extends Transform {
                                 if (fileOutputJacoco.exists()) {
                                     if (fileOutputJacoco.isDirectory()) {
                                         fileOutputJacoco.deleteDir()
-                                    } else {
+                                     } else {
                                         fileOutputJacoco.delete()
                                     }
                                     println("REMOVED output file Name:${fileOutputJacoco.name}")
@@ -192,13 +192,10 @@ class JacocoTransform extends Transform {
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
-                        String filename = fileInput.getAbsolutePath()
-                        if(filename.contains("Apptest")){
-                            println ("found injet file is -->"+filename)
-                        }
+                        print("the fileInput is "+fileInput.getAbsolutePath())
+                        print("the fileOutputTransForm is "+fileOutputTransForm.getAbsolutePath())
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
-                            print("the fileInput is "+fileInput.getAbsolutePath()+"  the fileoutputTransForm is "+fileOutputTransForm.getAbsolutePath())
                             injector.doClass(fileInput, fileOutputTransForm)
                         } else {
                             FileUtils.copyFile(fileInput, fileOutputTransForm)
