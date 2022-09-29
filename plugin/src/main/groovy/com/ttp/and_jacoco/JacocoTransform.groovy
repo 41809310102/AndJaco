@@ -52,10 +52,6 @@ class JacocoTransform extends Transform {
             transformInvocation.getOutputProvider().deleteAll()
         }
 
-        for(Object f:dirInputs){
-            println (f.toString())
-        }
-
         transformInvocation.inputs.each { input ->
             input.directoryInputs.each { dirInput ->
                 dirInputs.add(dirInput)
@@ -116,7 +112,7 @@ class JacocoTransform extends Transform {
                                 if (fileOutputJacoco.exists()) {
                                     if (fileOutputJacoco.isDirectory()) {
                                         fileOutputJacoco.deleteDir()
-                                     } else {
+                                    } else {
                                         fileOutputJacoco.delete()
                                     }
                                     println("REMOVED output file Name:${fileOutputJacoco.name}")
@@ -143,17 +139,18 @@ class JacocoTransform extends Transform {
     }
 
     def inject(TransformInvocation transformInvocation, def dirInputs, def jarInputs, List<String> includes) {
-        print("start inject of diff methods")
+        println("start inject of diff methods")
         ClassInjector injector = new ClassInjector(includes)
         if (!dirInputs.isEmpty()) {
-            print("if (!dirInputs.isEmpty())")
+            println("if (!dirInputs.isEmpty())")
+            println("the transformInvocation.incremental is"+ transformInvocation.incremental)
             dirInputs.each { dirInput ->
                 File dirOutput = transformInvocation.outputProvider.getContentLocation(dirInput.getName(),
                         dirInput.getContentTypes(), dirInput.getScopes(),
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
-                print("the diroutput is "+dirOutput.getAbsolutePath())
-                if (transformInvocationln.incremental) {
+                println("Diroutput:================>"+dirOutput.getAbsolutePath())
+                if (transformInvocation.incremental) {
                     println("the transformInvocation.incremental is"+ transformInvocation.incremental)
                     dirInput.changedFiles.each { entry ->
                         File fileInput = entry.getKey()
@@ -188,12 +185,11 @@ class JacocoTransform extends Transform {
                         }
                     }
                 } else {
-                    println("the transformInvocation.incremental is"+ transformInvocation.incremental)
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
-                        print("the fileInput is "+fileInput.getAbsolutePath())
-                        print("the fileOutputTransForm is "+fileOutputTransForm.parentFile.getAbsolutePath())
+                        String filename = fileInput.getAbsolutePath()
+                        println("FileInput:=================>"+filename)
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
                             injector.doClass(fileInput, fileOutputTransForm)
