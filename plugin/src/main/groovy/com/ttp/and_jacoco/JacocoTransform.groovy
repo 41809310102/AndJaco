@@ -52,6 +52,10 @@ class JacocoTransform extends Transform {
             transformInvocation.getOutputProvider().deleteAll()
         }
 
+        for(Object f:dirInputs){
+            println (f.toString())
+        }
+
         transformInvocation.inputs.each { input ->
             input.directoryInputs.each { dirInput ->
                 dirInputs.add(dirInput)
@@ -148,7 +152,8 @@ class JacocoTransform extends Transform {
                         dirInput.getContentTypes(), dirInput.getScopes(),
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
-                if (transformInvocation.incremental) {
+                print("the diroutput is "+dirOutput.getAbsolutePath())
+                if (transformInvocationln.incremental) {
                     println("the transformInvocation.incremental is"+ transformInvocation.incremental)
                     dirInput.changedFiles.each { entry ->
                         File fileInput = entry.getKey()
@@ -184,8 +189,6 @@ class JacocoTransform extends Transform {
                     }
                 } else {
                     println("the transformInvocation.incremental is"+ transformInvocation.incremental)
-                    println("IS CLASS PATH:"+ ClassProcessor.javaClass);
-                    println("IS KOTLIN PATH:"+ ClassProcessor.kotlinClass);
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
@@ -195,6 +198,7 @@ class JacocoTransform extends Transform {
                         }
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
+                            print("the fileInput is "+fileInput.getAbsolutePath()+"  the fileoutputTransForm is "+fileOutputTransForm.getAbsolutePath())
                             injector.doClass(fileInput, fileOutputTransForm)
                         } else {
                             FileUtils.copyFile(fileInput, fileOutputTransForm)

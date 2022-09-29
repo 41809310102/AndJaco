@@ -133,10 +133,11 @@ public class DiffAnalyzer {
 
     public boolean containsClass(String className){
 // com\example\test2\BuildConfig ->  com/example/test2/MainActivity
-        Boolean res =false;
+        boolean res = false;
         for(String s : diffClass){
-            if(s.contains(className)){
+            if(s.contains(checkname(className))){
               res = true;
+              break;
             }
         }
         if(res){
