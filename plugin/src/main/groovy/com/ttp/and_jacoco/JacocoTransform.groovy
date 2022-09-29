@@ -147,6 +147,8 @@ class JacocoTransform extends Transform {
                         dirInput.getContentTypes(), dirInput.getScopes(),
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
+                println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                println("Diroutput:===>"+dirOutput.getAbsolutePath())
                 println("transformInvocation.incremental=+"+transformInvocation.incremental)
                 if (transformInvocation.incremental) {
                     print(" if (transformInvocation.incremental)")
@@ -185,10 +187,8 @@ class JacocoTransform extends Transform {
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
-                        println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                        println("Diroutput:===>"+dirOutput.getAbsolutePath())
                         println("fileInput:===>"+fileInput.getAbsolutePath())
-                        println("fileOutputTransForm:===>"+fileOutputTransForm.getAbsolutePath())
+                       // println("fileOutputTransForm:===>"+fileOutputTransForm.getAbsolutePath())
                         println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
