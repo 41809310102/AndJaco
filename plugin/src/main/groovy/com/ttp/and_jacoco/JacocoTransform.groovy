@@ -75,6 +75,11 @@ class JacocoTransform extends Transform {
             }
             //对diff方法插入探针
             print("to diff addinject start \n")
+            println("found class file =========================================>>>>>")
+            for(Object f:dirInputs){
+                println (f.toString())
+            }
+            println("end ======================================================>>>>>")
             inject(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
             print("to diff addinject end")
 
