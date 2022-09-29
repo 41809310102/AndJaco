@@ -74,9 +74,11 @@ class JacocoTransform extends Transform {
             }
             //对diff方法插入探针
             println("to diff addinject start \n")
+            println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             for(Object f:dirInputs){
                 println("dirInputs==>"+f.toString())
             }
+            println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             inject(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
             println("to diff addinject end")
 
@@ -146,7 +148,6 @@ class JacocoTransform extends Transform {
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
                 println("transformInvocation.incremental=+"+transformInvocation.incremental)
-                println("Diroutput:===>"+dirOutput.getAbsolutePath())
                 if (transformInvocation.incremental) {
                     print(" if (transformInvocation.incremental)")
                     dirInput.changedFiles.each { entry ->
@@ -184,7 +185,11 @@ class JacocoTransform extends Transform {
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
+                        println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                        println("Diroutput:===>"+dirOutput.getAbsolutePath())
                         println("fileInput:===>"+fileInput.getAbsolutePath())
+                        println("fileOutputTransForm:===>"+fileOutputTransForm.getAbsolutePath())
+                        println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
                             injector.doClass(fileInput, fileOutputTransForm)
