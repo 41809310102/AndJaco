@@ -5,7 +5,6 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.task.BranchDiffTask
-
 import com.ttp.and_jacoco.util.Utils
 import groovy.io.FileType
 import org.codehaus.groovy.runtime.IOGroovyMethods
@@ -68,20 +67,18 @@ class JacocoTransform extends Transform {
                 //提交classes 到git
                 //  gitPush(jacocoExtension.gitPushShell, "jacoco auto commit")
                 //获取差异方法集
-                //branchDiffTask.pullDiffClasses
-                BranchDiffTask branchDiffTask =  project.tasks.findByName('generateReport')
+                BranchDiffTask branchDiffTask = project.tasks.findByName('generateReport')
+                //branchDiffTask.pullDiffClasses()
                 branchDiffTask.pullDiffadmin()
                 println('send http to diff-admin and get difffile')
             }
             //对diff方法插入探针
-            print("to diff addinject start \n")
-            println("found class file =========================================>>>>>")
+            println("to diff addinject start \n")
             for(Object f:dirInputs){
-                println (f.toString())
+                println("dirInputs==>"+f.toString())
             }
-            println("end ======================================================>>>>>")
             inject(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
-            print("to diff addinject end")
+            println("to diff addinject end")
 
         }
     }
@@ -139,19 +136,19 @@ class JacocoTransform extends Transform {
     }
 
     def inject(TransformInvocation transformInvocation, def dirInputs, def jarInputs, List<String> includes) {
-        println("start inject of diff methods")
+        print("start inject of diff methods")
         ClassInjector injector = new ClassInjector(includes)
         if (!dirInputs.isEmpty()) {
-            println("if (!dirInputs.isEmpty())")
-            println("the transformInvocation.incremental is"+ transformInvocation.incremental)
+            print("if (!dirInputs.isEmpty())")
             dirInputs.each { dirInput ->
                 File dirOutput = transformInvocation.outputProvider.getContentLocation(dirInput.getName(),
                         dirInput.getContentTypes(), dirInput.getScopes(),
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
-                println("Diroutput:================>"+dirOutput.getAbsolutePath())
+                println("transformInvocation.incremental=+"+transformInvocation.incremental)
+                println("Diroutput:===>"+dirOutput.getAbsolutePath())
                 if (transformInvocation.incremental) {
-                    println("the transformInvocation.incremental is"+ transformInvocation.incremental)
+                    print(" if (transformInvocation.incremental)")
                     dirInput.changedFiles.each { entry ->
                         File fileInput = entry.getKey()
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(
@@ -166,7 +163,6 @@ class JacocoTransform extends Transform {
                                 }
                                 if (jacocoExtension.jacocoEnable &&
                                         DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
-                                    println("injector=====")
                                     injector.doClass(fileInput, fileOutputTransForm)
                                 } else {
                                     FileUtils.copyFile(fileInput, fileOutputTransForm)
@@ -188,8 +184,7 @@ class JacocoTransform extends Transform {
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
-                        String filename = fileInput.getAbsolutePath()
-                        println("FileInput:=================>"+filename)
+                        println("fileInput:===>"+fileInput.getAbsolutePath())
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
                             injector.doClass(fileInput, fileOutputTransForm)
