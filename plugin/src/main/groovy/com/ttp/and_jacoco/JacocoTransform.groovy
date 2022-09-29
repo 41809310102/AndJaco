@@ -193,7 +193,7 @@ class JacocoTransform extends Transform {
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
                         print("the fileInput is "+fileInput.getAbsolutePath())
-                        print("the fileOutputTransForm is "+fileOutputTransForm.getAbsolutePath())
+                        print("the fileOutputTransForm is "+fileOutputTransForm.parentFile.getAbsolutePath())
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
                             injector.doClass(fileInput, fileOutputTransForm)
