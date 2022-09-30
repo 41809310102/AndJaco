@@ -1,6 +1,5 @@
 package com.ttp.and_jacoco;
 
-import com.ttp.and_jacoco.extension.JacocoExtension;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -23,7 +22,6 @@ import java.util.zip.ZipOutputStream;
 public abstract class ClassProcessor {
     private List<String> includes;
 
-    JacocoExtension jacocoExtension;
 
     public ClassProcessor(List<String> includes) {
         this.includes = includes;
@@ -124,19 +122,12 @@ public abstract class ClassProcessor {
                 || className.startsWith("androidx")) {
             return false;
         }
-        if(jacocoExtension.getIsMac()){
-            for (String include : includes) {
-                if (include.contains(className)) {
+
+        for (String include : includes) {
+            if (className.startsWith(include.replaceAll("\\.", "/"))||include.contains(className)){
                     return true;
                 }
             }
-        }else{
-            for (String include : includes) {
-                if (className.startsWith(include.replaceAll("\\.", "/"))) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 
