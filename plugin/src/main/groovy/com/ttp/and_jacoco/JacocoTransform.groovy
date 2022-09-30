@@ -73,14 +73,9 @@ class JacocoTransform extends Transform {
                 println('send http to diff-admin and get difffile')
             }
             //对diff方法插入探针
-            println("to diff addinject start \n")
-            println("==================================================================")
-            for(Object f:dirInputs){
-                println("dirInputs==>"+f.toString())
-            }
-            println("==================================================================")
+            println("==========================to diff addinject start========================================")
             inject(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
-            println("to diff addinject end")
+            println("==========================to diff addinject end!!========================================")
 
         }
     }
@@ -138,18 +133,14 @@ class JacocoTransform extends Transform {
     }
 
     def inject(TransformInvocation transformInvocation, def dirInputs, def jarInputs, List<String> includes) {
-        print("start inject of diff methods")
         ClassInjector injector = new ClassInjector(includes)
         if (!dirInputs.isEmpty()) {
-            print("if (!dirInputs.isEmpty())")
             dirInputs.each { dirInput ->
                 File dirOutput = transformInvocation.outputProvider.getContentLocation(dirInput.getName(),
                         dirInput.getContentTypes(), dirInput.getScopes(),
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
                 println("transformInvocation.incremental=+"+transformInvocation.incremental)
-                println("==================================================================")
-                println("Diroutput:===>"+dirOutput.getAbsolutePath())
                 if (transformInvocation.incremental) {
                     print(" if (transformInvocation.incremental)")
                     dirInput.changedFiles.each { entry ->

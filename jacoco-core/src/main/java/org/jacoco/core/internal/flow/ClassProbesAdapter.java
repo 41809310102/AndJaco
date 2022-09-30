@@ -62,7 +62,7 @@ public class ClassProbesAdapter extends ClassVisitor
                                      final String desc, final String signature,
                                      final String[] exceptions) {
         if (DiffAnalyzer.getInstance().containsMethod(className, name, desc)) {
-            System.out.println("found diffclass:"+className+ "   method:" + name + "  desc:" + desc + "  has insert probes");
+            System.out.println("(####colour####) classname:"+className+ "   method:" + name + "  desc:" + desc + "  has flow  colour!!!");
             final MethodProbesVisitor methodProbes;
             final MethodProbesVisitor mv = (MethodProbesVisitor) cv.visitMethod(access, name, desc,
                     signature, exceptions);

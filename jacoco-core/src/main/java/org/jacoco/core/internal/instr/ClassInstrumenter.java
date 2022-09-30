@@ -59,11 +59,8 @@ public class ClassInstrumenter extends ClassProbesVisitor {
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature,
                                      final String[] exceptions) {
-        System.out.println("instr:"+ className + "  method:"+name);
         if (DiffAnalyzer.getInstance().containsMethod(className, name, desc)) {
-            System.out.println("**************************************************************************************");
-            System.out.println("*class:" + className + "  method:" + name + "  desc:" + desc + "  has insert probes***");
-            System.out.println("**************************************************************************************");
+            System.out.println("<====^^^^====>class:" + className + "  method:" + name + "  desc:" + desc + "  has insert probes");
             InstrSupport.assertNotInstrumented(name, className);
 
             final MethodVisitor mv = cv.visitMethod(access, name, desc, signature,
