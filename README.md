@@ -1,17 +1,22 @@
-安卓增量代码染色插件AndJaco引入说明
-介绍
+## 安卓增量代码染色插件AndJaco引入说明
+
+## 介绍
+
 AndJaco 是用于Android App的增量代码测试覆盖率工具，基于jacoco源码修改而来。相比于原版jacoco全量测试，AndJaco可以支持增量代码的覆盖测试和全量代码的覆盖。
-git地址：https://github.com/41809310102/AndJaco
+git地址：[https://github.com/41809310102/AndJaco](https://github.com/41809310102/AndJaco)
 因为在运行时会把ec数据文件上传到服务器，编译时会去下载，得到ec，所以要先配置服务器。
-Ec文件服务器配置地址：
-http://10.23.182.19:9001/perf_data_manage/perfdog/report_download
-Diff服务器配置地址：
-http://10.23.182.19:8085/doc.html
-引入说明
-1、 diff服务器布在局域网即可，diff平台是集成分析java文件和kotlin文件的解析服务器。
+
+## 引入说明
+
+1、 diff服务器布在局域网即可，diff平台是集成分析java文件和kotlin文件的解析服务器。可以通过对比分支代码，获取代码不同点。该项目不开源，请谅解！
+![在这里插入图片描述](https://img-blog.csdnimg.cn/4e5390623b45414384faf243cde049f1.png)
 2、  Ec文件存储器保存生成的ec文件。
+这里可以自己写一个文件存储服务器，很简单
 3、  在项目根目录的build.gradle添加jitpack仓库与插件
-1.在项目根目录的build.gradle添加jitpack仓库与插件
+
+### 1.在项目根目录的build.gradle添加jitpack仓库与插件
+
+```java
 buildscript {
     repositories {
         maven { url 'https://jitpack.io' }
@@ -28,8 +33,11 @@ allprojects {
     }
 }
 
+```
 
-2.在app/中创建gradle依赖文件Andjacoco.gradle
+### 2.在app/中创建gradle依赖文件Andjacoco.gradle
+
+```java
 apply plugin: 'com.ttp.and_jacoco'
 
 //代码覆盖配置
@@ -69,9 +77,8 @@ def ArrayList<String> getAllJavaDir() {
 }
 
 
-
-
-jacocoCoverageConfig 是代码覆盖的配置。
+```
+*jacocoCoverageConfig 是代码覆盖的配置。
 jacocoEnable： 是总开关，开启会copy class,执行 git命令等，插入代码。线上包建议关闭。
 branchName: 要对比的分支名，一般为线上稳定分支，如master，
 giturl: 项目git地址
@@ -83,14 +90,13 @@ classDirectories：class 存放路径，enable开启时会copy class 到该目�
 includes：要保存的class 包名，建议只保存自己包名的class。当这些class 有差异时才会插入代码。
 excludeClass：就算是你项目的包名，可能还要过滤某些自动生成的class,例如 DataBinding....。return true表示过滤
 excludeMethod：过滤某些方法，因为在编译时，会自动生成某些方法。如带 $ 的虚方法。
-reportDirectory：报告输出目录，默认为 
-"${project.buildDir.getAbsolutePath()}/outputs/report"
+reportDirectory：报告输出目录，默认为 
+"${project.buildDir.getAbsolutePath()}/outputs/report"*
 
 
-rt 是运行时的库，rt-no-op 是空代码实现，用于正式包编译不报错
-在Application中
-@Overridepublic void onCreate() {     super.onCreate();     //初始化，会上传上次数据     CodeCoverageManager.init(app, BuildConfig.host);     //uploadData 上传上次保存的数据     CodeCoverageManager.uploadData();  }
-3.在app/build.gradle中应用插件
+### 3.在app/build.gradle中应用插件
+
+```java
 plugins {
     id 'com.android.application'
 }
@@ -133,7 +139,7 @@ dependencies {
     implementation('org.jacoco:org.jacoco.report:0.8.5') {
         exclude group: 'org.jacoco', module: 'org.jacoco.core'
     }
-    implementation 'com.github.41809310102.AndJaco:rt:AJdebug0.1.9'
+    implementation 'com.github.41809310102.AndJaco:rt:AJdebug0.1.8'
 
 }
 
@@ -141,7 +147,12 @@ repositories {
     mavenCentral()
 }
 
-4.在MainActivty类中加入 如下方法：
+```
+
+### 4.在MainActivty类中加入 如下方法：
+
+```java
+
 //通过反射遍历项目所有类信息，并且生成ec文件，上传ec文件存储器
  public void generateCoverageFile() {
 
@@ -207,8 +218,9 @@ repositories {
             }
         }
     }
-
+```
 在activity.onCreate中测试调用增量方法：
+```java
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -222,17 +234,22 @@ repositories {
         k.hashCode();
     }
 
+```
 在activity.onStop中调用generateCoverageFile()方法：
-
+```java
    @Override
     protected void onStop() {
         generateCoverageFile();
         super.onStop();
     }
 
+```
 
 详细见demo源码。
 运行一会，然后退出app到后台,这时app 会把上次的 ec 文件上传到服务器。
-生成报告
+
+## 生成报告
+
 执行 ./gradlew generateReport 任务生成报告，报告生成目录 app/builds/outputs/report，打开index.html，就可以看见本次的覆盖率报告了。
+
 
