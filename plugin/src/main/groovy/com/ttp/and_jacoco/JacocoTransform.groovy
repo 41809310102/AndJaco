@@ -73,9 +73,14 @@ class JacocoTransform extends Transform {
                 println('send http to diff-admin and get difffile')
             }
             //对diff方法插入探针
-            print("to diff addinject start \n")
+            println("to diff addinject start \n")
+            println("==================================================================")
+            for(Object f:dirInputs){
+                println("dirInputs==>"+f.toString())
+            }
+            println("==================================================================")
             inject(transformInvocation, dirInputs, jarInputs, jacocoExtension.includes)
-            print("to diff addinject end")
+            println("to diff addinject end")
 
         }
     }
@@ -142,6 +147,9 @@ class JacocoTransform extends Transform {
                         dirInput.getContentTypes(), dirInput.getScopes(),
                         Format.DIRECTORY)
                 FileUtils.mkdirs(dirOutput)
+                println("transformInvocation.incremental=+"+transformInvocation.incremental)
+                println("==================================================================")
+                println("Diroutput:===>"+dirOutput.getAbsolutePath())
                 if (transformInvocation.incremental) {
                     print(" if (transformInvocation.incremental)")
                     dirInput.changedFiles.each { entry ->
@@ -179,6 +187,8 @@ class JacocoTransform extends Transform {
                     dirInput.file.traverse(type: FileType.FILES) { fileInput ->
                         File fileOutputTransForm = new File(fileInput.getAbsolutePath().replace(dirInput.file.getAbsolutePath(), dirOutput.getAbsolutePath()))
                         FileUtils.mkdirs(fileOutputTransForm.parentFile)
+                        println("fileInput:===>"+fileInput.getAbsolutePath())
+                        println("==================================================================")
                         if (jacocoExtension.jacocoEnable &&
                                 DiffAnalyzer.getInstance().containsClass(getClassName(fileInput))) {
                             injector.doClass(fileInput, fileOutputTransForm)
@@ -246,6 +256,7 @@ class JacocoTransform extends Transform {
 
         pces.closeStreams()
     }
+
     String getUniqueHashName(File fileInput) {
         final String fileInputName = fileInput.getName()
         if (fileInput.isDirectory()) {
