@@ -45,7 +45,7 @@ jacocoCoverageConfig {
     jacocoEnable true //开关
     branchName 'main'//主分支
     nowVersion 'debug'//开发分支
-    downEchost 'http://10.23.182.19:9001/perf_data_manage/perfdog/report_download'
+    downEchost ''
     giturl "" //项目git地址
     gitdiffurl ""//diff平台地址
     host=""//下载服务host
@@ -54,7 +54,7 @@ jacocoCoverageConfig {
     sourceDirectories = getAllJavaDir() //源码路径
     classDirectories = ["${rootProject.projectDir.absolutePath}/app/build/intermediates/javac/debug/classes"
     ,"${rootProject.projectDir.absolutePath}/app/build/tmp/kotlin-classes/debug"] //classes 路径
-    includes = ['com.example.test2','com.bilibili.bilibililive'] //要包含的class 包名,数组
+    includes = ['com.example.test2'] //要包含的class 包名,数组
     excludeClass = { // return true 表示要排除的class
         println("exclude it=${it}")
         return false
