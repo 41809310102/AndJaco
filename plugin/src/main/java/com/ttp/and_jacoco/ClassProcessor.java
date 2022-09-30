@@ -120,10 +120,16 @@ public abstract class ClassProcessor {
                 || className.startsWith("androidx")) {
             return false;
         }
-
-        for (String include : includes) {
-            if (className.startsWith(include.replaceAll("\\.", "/"))) {
-                return true;
+        //如果筛选数组中没有需要染色的包，那么就直接返回true
+        if(includes.size()==0){
+            return true;
+        }else{
+            for (String include : includes) {
+                if (className.startsWith(include.replaceAll("\\.", "/"))) {
+                    return true;
+                }else if(include.contains(className)){
+                    return true;
+                }
             }
         }
         return false;
