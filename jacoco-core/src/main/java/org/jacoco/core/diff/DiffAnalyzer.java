@@ -92,12 +92,11 @@ public class DiffAnalyzer {
 
 
     public boolean containsMethod(String className, String methodName, String desc) {
-        System.out.println("now containsMethod size =>"+diffList.size());
-        System.out.println("********************"+"classname:"+className+" methodName:"+methodName+" desc:"+desc);
         for (MethodInfo methodInfo : diffList) {
             if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
 //                System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+"Class");
 //                System.out.println("DiffList :" +methodInfo.toString());
+
 //                System.out.println("=================================================================================");
                 GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,"new class");
                 injutlist.add(getinjutClass);
