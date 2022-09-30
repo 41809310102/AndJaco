@@ -26,7 +26,7 @@ class JacocoExtension {
     //下载ec 的服务器
     String host
     //是否支持Mac
-    boolean isMac   //  如果为false,那么就是其他系统，不用适配。
+//    boolean isMac   //  如果为false,那么就是其他系统，不用适配。
 
     /**
      * 类过滤器 返回 true 的将会被过滤
