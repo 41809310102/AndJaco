@@ -1,5 +1,7 @@
 package com.ttp.and_jacoco;
 
+import com.ttp.and_jacoco.extension.JacocoExtension;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
@@ -20,6 +22,8 @@ import java.util.zip.ZipOutputStream;
 
 public abstract class ClassProcessor {
     private List<String> includes;
+
+    JacocoExtension jacocoExtension;
 
     public ClassProcessor(List<String> includes) {
         this.includes = includes;
@@ -107,7 +111,7 @@ public abstract class ClassProcessor {
         return shouldIncludeClass(filePath2ClassName(fileIn));
     }
 
-    boolean shouldIncludeClass(String className) {
+    boolean  shouldIncludeClass(String className) {
         //将win下的分隔符转化为mac的
         className = className.replaceAll("\\\\", "/");
 
@@ -120,10 +124,17 @@ public abstract class ClassProcessor {
                 || className.startsWith("androidx")) {
             return false;
         }
-
-        for (String include : includes) {
-            if (className.startsWith(include.replaceAll("\\.", "/"))) {
-                return true;
+        if(jacocoExtension.getIsMac()){
+            for (String include : includes) {
+                if (include.contains(className)) {
+                    return true;
+                }
+            }
+        }else{
+            for (String include : includes) {
+                if (className.startsWith(include.replaceAll("\\.", "/"))) {
+                    return true;
+                }
             }
         }
         return false;
@@ -145,5 +156,9 @@ public abstract class ClassProcessor {
         while ((c = in.read(buffer)) != -1) {
             out.write(buffer, 0, c);
         }
+    }
+
+    public static void main(String[] args) {
+
     }
 }

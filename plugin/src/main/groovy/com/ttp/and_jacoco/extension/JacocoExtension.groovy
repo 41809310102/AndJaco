@@ -21,15 +21,12 @@ class JacocoExtension {
     List<String> includes
     //生成报告的目录
     String reportDirectory
-    //git 提交命令
-    String gitPushShell
-    //复制class 的shell
-    String copyClassShell
     //git-bash的路径，插件会自动寻找路径，如果找不到，建议自行配置
     private String gitBashPath
     //下载ec 的服务器
     String host
-
+    //是否支持Mac
+    boolean isMac   //  如果为false,那么就是其他系统，不用适配。
 
     /**
      * 类过滤器 返回 true 的将会被过滤
