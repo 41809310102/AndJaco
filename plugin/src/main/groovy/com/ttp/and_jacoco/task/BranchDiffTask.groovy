@@ -120,7 +120,7 @@ class BranchDiffTask extends DefaultTask {
         }
         System.out.println("now get dif fadmin send http message letter over")
         System.out.println("difflist size="+getdifflist.size())
-        print("all data to see:" + getdifflist.toString())
+      //  print("all data to see:" + getdifflist.toString())
         return getdifflist
     }
 
