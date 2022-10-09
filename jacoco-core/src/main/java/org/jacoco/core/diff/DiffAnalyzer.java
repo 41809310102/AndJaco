@@ -116,7 +116,7 @@ public class DiffAnalyzer {
             }else{  //考虑到kt文件和java文件的jui表达不兼容问题
                 String desjocctran = Juiutil.JacocodescTran(desc);
                 if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)
-                        &&(desjocctran.equals(methodInfo.desc)||desjocctran.contains(methodInfo.desc))){
+                        &&(desjocctran.equals(methodInfo.desc)||desjocctran.contains(ispassParam(methodInfo.desc)))){
                     GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,methodInfo.desc);
                     injutlist.add(getinjutClass);
 //                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+desjocctran);
@@ -129,6 +129,13 @@ public class DiffAnalyzer {
         return false;
     }
 
+
+    public String ispassParam(String param){
+       param = param.replace("(","");
+       param = param.replace(")","");
+       param = param.replace("V","");
+       return param;
+    }
 
     public boolean containsClass(String className){
 // com\example\test2\BuildConfig ->  com/example/test2/MainActivity
