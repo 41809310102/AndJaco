@@ -15,33 +15,33 @@ public class Juiutil {
     }
 
     private static void initmap(){
-        juimap.put("boolean","Z");juimap.put("Boolean","Z");
-        juimap.put("byte","B");juimap.put("Byte","B");
-        juimap.put("char","C");juimap.put("Char","C");
-        juimap.put("short","S");juimap.put("Short","S");
-        juimap.put("int","I");juimap.put("Int","I");
-        juimap.put("long","J");juimap.put("Long","J");
-        juimap.put("double","D");juimap.put("Double","D");
-        juimap.put("float","F");juimap.put("Float","F");
-        juimap.put("void","V"); juimap.put("Void","V");
-        juimap.put("boolean[]","[Z");
-        juimap.put("char[]","[C");
-        juimap.put("byte[]","[B");
-        juimap.put("short[]","[S");
-        juimap.put("int[]","[I");
-        juimap.put("long[]","[J");
-        juimap.put("double[]","[D");
-        juimap.put("float[]","[F");
-        juimap.put("void[]","[V");
-        juimap.put("boolean[][]","[[Z");
-        juimap.put("char[][]","[[C");
-        juimap.put("byte[][]","[[B");
-        juimap.put("short[][]","[[S");
-        juimap.put("int[][]","[[I");
-        juimap.put("long[][]","[[J");
-        juimap.put("double[][]","[[D");
-        juimap.put("float[][]","[[F");
-        juimap.put("void[][]","[[V");
+        juimap.put("boolean","Z");        juimap.put("Boolean","Z");
+        juimap.put("byte","B");           juimap.put("Byte","B");
+        juimap.put("char","C");           juimap.put("Char","C");
+        juimap.put("short","S");          juimap.put("Short","S");
+        juimap.put("int","I");            juimap.put("Int","I");
+        juimap.put("long","J");           juimap.put("Long","J");
+        juimap.put("double","D");         juimap.put("Double","D");
+        juimap.put("float","F");          juimap.put("Float","F");
+        juimap.put("void","V");           juimap.put("Void","V");
+        juimap.put("boolean[]","[Z");     juimap.put("Boolean[]","[Z");
+        juimap.put("char[]","[C");        juimap.put("Char[]","[C");
+        juimap.put("byte[]","[B");        juimap.put("Byte[]","[B");
+        juimap.put("short[]","[S");       juimap.put("Short[]","[S");
+        juimap.put("int[]","[I");         juimap.put("Int[]","[I");
+        juimap.put("long[]","[J");        juimap.put("Iong[]","[J");
+        juimap.put("double[]","[D");      juimap.put("Double[]","[D");
+        juimap.put("float[]","[F");       juimap.put("Float[]","[F");
+        juimap.put("void[]","[V");        juimap.put("Void[]","[V");
+        juimap.put("boolean[][]","[[Z");  juimap.put("Boolean[][]","[[Z");
+        juimap.put("char[][]","[[C");     juimap.put("Char[][]","[[C");
+        juimap.put("byte[][]","[[B");     juimap.put("Byte[][]","[[B");
+        juimap.put("short[][]","[[S");    juimap.put("Short[][]","[[S");
+        juimap.put("int[][]","[[I");      juimap.put("Int[][]","[[I");
+        juimap.put("long[][]","[[J");     juimap.put("Long[][]","[[J");
+        juimap.put("double[][]","[[D");   juimap.put("Double[][]","[[D");
+        juimap.put("float[][]","[[F");    juimap.put("Float[][]","[[F");
+        juimap.put("void[][]","[[V");     juimap.put("Void[][]","[[V");
     }
 
 //    public static  void   jacocodesc(String str){
@@ -50,7 +50,6 @@ public class Juiutil {
 //            System.out.println(l);
 //        }
 //    }
-
 
     public  static  String  JacocodescTran(String str){
         String[] arr = str.split(";");
@@ -96,7 +95,6 @@ public class Juiutil {
                             break;
                         }else{
                             flag+=1;
-
                         }
                     }
                     if(cond.equals("")){
@@ -141,8 +139,7 @@ public class Juiutil {
 
     public static void main(String[] args) {
         String str = "([BLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JIFLjava/util/List;[I[Ljava/lang/String;Ljava/util/HashMap;)V";
-        String r = "Ljava/lang/String";
-        System.out.println(Juiutil.JacocodescTran(str));
+        String r = "(com.bilibili.Throwable)V";
     }
 
 }
