@@ -47,7 +47,15 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 	 */
 	public void put(final ExecutionData data) throws IllegalStateException {
 		final Long id = Long.valueOf(data.getId());
-		final ExecutionData entry = entries.get(id);
+		ExecutionData entry = entries.get(id);
+		final String className= data.getName();
+		if (entry == null) {
+			entry = entries.get(className);
+			// 如果probe不相同 说明是两个同名的class但是内容不相同
+			if (entry != null && entry.getProbes().length != data.getProbes().length) {
+				entry = null;
+			}
+		}
 		if (entry == null) {
 			entries.put(id, data);
 			names.add(data.getName());
