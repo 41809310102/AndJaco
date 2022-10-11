@@ -1,5 +1,7 @@
 package com.ttp.and_jacoco;
 
+
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
@@ -97,7 +99,8 @@ public abstract class ClassProcessor {
             int index = path.indexOf(File.separator, path.indexOf(kotlinClass) + kotlinClass.length());
             className = path.substring(index + 1);
         } else {
-            className = fileIn.getName();
+            int index = path.indexOf(File.separator, path.indexOf("com") -3);
+            className = path.substring(index + 1);
         }
         return className;
     }

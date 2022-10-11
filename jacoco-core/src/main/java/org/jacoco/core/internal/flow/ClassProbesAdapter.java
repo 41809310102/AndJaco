@@ -61,10 +61,10 @@ public class ClassProbesAdapter extends ClassVisitor
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature,
                                      final String[] exceptions) {
-        if(className.contains("$")||className.contains("$$")){
-            System.out.println("($$$$$$$)===classname:"+className+ "   method:" + name + "  desc:" + desc );
-        }
         if (DiffAnalyzer.getInstance().containsMethod(className, name, desc)) {
+            if(className.contains("$")||className.contains("$$")){
+                System.out.println("($$$$$$$)===classname:"+className+ "   method:" + name + "  desc:" + desc );
+            }
             System.out.println("(####colour####) classname:"+className+ "   method:" + name + "  desc:" + desc + "  has flow  colour!!!");
             final MethodProbesVisitor methodProbes;
             final MethodProbesVisitor mv = (MethodProbesVisitor) cv.visitMethod(access, name, desc,

@@ -141,7 +141,7 @@ public class DiffAnalyzer {
 // com\example\test2\BuildConfig ->  com/example/test2/MainActivity
         boolean res = false;
         for(String s : diffClass){
-            if(s.contains(checkname(className))){
+            if(checkname(className).contains(s)){
               res = true;
               break;
             }
@@ -153,6 +153,7 @@ public class DiffAnalyzer {
         }
         return res;
     }
+
 
     //改造classlist类名描述
     public String checkname(String name){
