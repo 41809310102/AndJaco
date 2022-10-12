@@ -93,7 +93,7 @@ public class DiffAnalyzer {
 
     public boolean containsMethod(String className, String methodName, String desc) {
         for (MethodInfo methodInfo : diffList) {
-            if ((className.equals(methodInfo.className)||className.contains(methodInfo.className)) && methodInfo.methodName.equals("Class")) {
+            if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
 //                System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+"Class");
 //                System.out.println("DiffList :" +methodInfo.toString());
 
@@ -105,7 +105,7 @@ public class DiffAnalyzer {
             //判断无参方法是否一致
             String deschead = desc.substring(0,2);
             if(deschead.equals("()")){
-                if( (className.equals(methodInfo.className)||className.contains(methodInfo.className)) && methodName.equals(methodInfo.methodName)){
+                if(className.equals(methodInfo.className)  && methodName.equals(methodInfo.methodName)){
                     GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,methodInfo.desc);
                     injutlist.add(getinjutClass);
 //                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+deschead);
@@ -115,7 +115,7 @@ public class DiffAnalyzer {
                 }
             }else{  //考虑到kt文件和java文件的jui表达不兼容问题
                 String desjocctran = Juiutil.JacocodescTran(desc);
-                if((className.equals(methodInfo.className)||className.contains(methodInfo.className)) && methodName.equals(methodInfo.methodName)
+                if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)
                         &&(desjocctran.equals(methodInfo.desc)||desjocctran.contains(ispassParam(methodInfo.desc)))){
                     GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,methodInfo.desc);
                     injutlist.add(getinjutClass);
