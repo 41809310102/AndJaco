@@ -62,7 +62,6 @@ public final class KotlinInlineFilter implements IFilter {
 		try {
 			final BufferedReader br = new BufferedReader(
 					new StringReader(smap));
-			System.out.println("The Br is ====> "+br.readLine());
 			expectLine(br, "SMAP");
 			System.out.println("The OutputFileName is ====> "+br.readLine());
 			// OutputFileName
