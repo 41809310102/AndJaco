@@ -69,6 +69,7 @@ public final class KotlinInlineFilter implements IFilter {
 			expectLine(br, "Kotlin");
 			// StratumSection
 			expectLine(br, "*S Kotlin");
+			expectLine(br, "*S KotlinDebug");
 			// FileSection
 			expectLine(br, "*F");
 			final BitSet sourceFileIds = new BitSet();
