@@ -62,6 +62,7 @@ public final class KotlinInlineFilter implements IFilter {
 		try {
 			final BufferedReader br = new BufferedReader(
 					new StringReader(smap));
+			System.out.println("The Br is ====> "+br.readLine());
 			expectLine(br, "SMAP");
 			// OutputFileName
 			expectLine(br, sourceFileName);
@@ -69,9 +70,10 @@ public final class KotlinInlineFilter implements IFilter {
 			expectLine(br, "Kotlin");
 			// StratumSection
 			expectLine(br, "*S Kotlin");
-			expectLine(br, "*S KotlinDebug");
 			// FileSection
 			expectLine(br, "*F");
+			//KotlinDebug
+			expectLine(br, "*S KotlinDebug");
 			final BitSet sourceFileIds = new BitSet();
 			String line;
 			while (!"*L".equals(line = br.readLine())) {
