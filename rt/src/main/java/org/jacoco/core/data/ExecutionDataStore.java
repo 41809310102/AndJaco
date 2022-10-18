@@ -31,8 +31,6 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 
 	private final Map<Long, ExecutionData> entries = new HashMap<Long, ExecutionData>();
 
-	private final Map<String, ExecutionData> classEntries = new HashMap<String, ExecutionData>();
-
 	private final Set<String> names = new HashSet<String>();
 
 	/**
@@ -47,44 +45,16 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 	 *             to a corresponding one, that is already contained
 	 * @see ExecutionData#assertCompatibility(long, String, int)
 	 */
-//	public void put(final ExecutionData data) throws IllegalStateException {
-//		final Long id = Long.valueOf(data.getId());
-//		final ExecutionData entry = entries.get(id);
-//		if (entry == null) {
-//			entries.put(id, data);
-//			names.add(data.getName());
-//		} else {
-//			entry.merge(data);
-//		}
-//	}
-
-
 	public void put(final ExecutionData data) throws IllegalStateException {
 		final Long id = Long.valueOf(data.getId());
-		final String className= data.getName();
-		// 这里可能存在有相同的类名的 最好是做合并的处理
-		ExecutionData entry = entries.get(id);
-		if (entry == null) {
-			entry = classEntries.get(className);
-			// 如果probe不相同 说明是两个同名的class但是内容不相同
-			if (entry != null && entry.getProbes().length != data.getProbes().length) {
-				System.out.println("The put is get two classes of html.........................");
-				System.out.println("The Classname is "+className+".............................");
-				entry = null;
-			}
-		}
-//		final ExecutionData classEntry = classEntries.get(className);
+		final ExecutionData entry = entries.get(id);
 		if (entry == null) {
 			entries.put(id, data);
 			names.add(data.getName());
-			classEntries.put(className, data);
 		} else {
 			entry.merge(data);
-			classEntries.put(className, entry);
 		}
 	}
-
-
 
 	/**
 	 * Subtracts the probes in the given {@link ExecutionData} object from the
