@@ -81,8 +81,9 @@ public final class KotlinInlineFilter implements IFilter {
 
 				final Matcher m = FILE_INFO_PATTERN.matcher(line);
 				if (!m.matches()) {
-					throw new IllegalStateException(
-							"Unexpected SMAP line: " + line);
+////					throw new IllegalStateException(
+//							"Unexpected SMAP line: " + line);
+					System.out.println("Unexpected SMAP line: " + line);
 				}
 				final String fileName = m.group(2);
 				if (fileName.equals(sourceFileName)) {
@@ -90,15 +91,17 @@ public final class KotlinInlineFilter implements IFilter {
 				}
 			}
 			if (sourceFileIds.isEmpty()) {
-				throw new IllegalStateException("Unexpected SMAP FileSection");
+//				throw new IllegalStateException("Unexpected SMAP FileSection");
+				System.out.println("Unexpected SMAP line: " + line);
 			}
 			// LineSection
 			int min = Integer.MAX_VALUE;
 			while (!"*E".equals(line = br.readLine())) {
 				final Matcher m = LINE_INFO_PATTERN.matcher(line);
 				if (!m.matches()) {
-					throw new IllegalStateException(
-							"Unexpected SMAP line: " + line);
+//					throw new IllegalStateException(
+//							"Unexpected SMAP line: " + line);
+					System.out.println("Unexpected SMAP line: " + line);
 				}
 				final int inputStartLine = Integer.parseInt(m.group(1));
 				final int lineFileID = Integer

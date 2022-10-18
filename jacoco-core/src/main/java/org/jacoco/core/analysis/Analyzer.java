@@ -131,7 +131,8 @@ public class Analyzer {
 		try {
 			analyzeClass(buffer);
 		} catch (final RuntimeException cause) {
-			throw analyzerError(location, cause);
+//			throw analyzerError(location, cause);
+			System.out.println(cause.getCause());
 		}
 	}
 
