@@ -64,6 +64,7 @@ public final class KotlinInlineFilter implements IFilter {
 					new StringReader(smap));
 			System.out.println("The Br is ====> "+br.readLine());
 			expectLine(br, "SMAP");
+			System.out.println("The OutputFileName is ====> "+br.readLine());
 			// OutputFileName
 			expectLine(br, sourceFileName);
 			// DefaultStratumId
@@ -122,6 +123,7 @@ public final class KotlinInlineFilter implements IFilter {
 			final String expected) throws IOException {
 		final String line = br.readLine();
 		if (!expected.equals(line)) {
+			System.out.println("Throw is the expected is "+ expected);
 			throw new IllegalStateException("Unexpected SMAP line: " + line);
 		}
 	}
