@@ -29,6 +29,12 @@ class JacocoExtension {
     private String gitBashPath
     //下载ec 的服务器
     String host
+    //本次检测的版本号
+    String XID
+    //打包人名称
+    String Auter
+    //打包时间
+    String reportid
 
 
     /**
