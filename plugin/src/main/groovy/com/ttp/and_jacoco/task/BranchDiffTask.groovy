@@ -48,7 +48,7 @@ class BranchDiffTask extends DefaultTask {
         pullDiffadmin()
         println "pullDiffClasses end!!!!!!"
         if (jacocoExtension.reportDirectory == null) {
-            jacocoExtension.reportDirectory = "${project.buildDir.getAbsolutePath()}/outputs/report"
+            jacocoExtension.reportDirectory = "${project.buildDir.getAbsolutePath()}/outputs/report/"+jacocoExtension.reportid
         }
         ReportGenerator generator = new ReportGenerator(jacocoExtension.execDir, toFileList(jacocoExtension.classDirectories),
                 toFileList(jacocoExtension.sourceDirectories), new File(jacocoExtension.reportDirectory));

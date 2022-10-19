@@ -93,7 +93,7 @@ public class DiffAnalyzer {
 
     public boolean containsMethod(String className, String methodName, String desc) {
         for (MethodInfo methodInfo : diffList) {
-            if (className.equals(methodInfo.className) && methodInfo.methodName.equals("Class")) {
+            if (className.contains(methodInfo.className) && methodInfo.methodName.equals("Class")) {
 //                System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+"Class");
 //                System.out.println("DiffList :" +methodInfo.toString());
 
@@ -105,7 +105,7 @@ public class DiffAnalyzer {
             //判断无参方法是否一致
             String deschead = desc.substring(0,2);
             if(deschead.equals("()")){
-                if(className.equals(methodInfo.className)  && methodName.equals(methodInfo.methodName)){
+                if(className.contains(methodInfo.className)  && methodName.equals(methodInfo.methodName)){
                     GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,methodInfo.desc);
                     injutlist.add(getinjutClass);
 //                    System.out.println("className:"+ className + " methodName:"+ methodName + " desc:"+deschead);
@@ -115,7 +115,7 @@ public class DiffAnalyzer {
                 }
             }else{  //考虑到kt文件和java文件的jui表达不兼容问题
                 String desjocctran = Juiutil.JacocodescTran(desc);
-                if(className.equals(methodInfo.className) && methodName.equals(methodInfo.methodName)
+                if(className.contains(methodInfo.className) && methodName.equals(methodInfo.methodName)
                         &&(desjocctran.equals(methodInfo.desc)||desjocctran.contains(ispassParam(methodInfo.desc)))){
                     GetinjutClass getinjutClass = new GetinjutClass(className,methodName,desc,methodInfo.desc);
                     injutlist.add(getinjutClass);
@@ -141,7 +141,14 @@ public class DiffAnalyzer {
 // com\example\test2\BuildConfig ->  com/example/test2/MainActivity
         boolean res = false;
         for(String s : diffClass){
-            if(checkname(className).contains(s)){
+            String proclassname = checkname(className);
+           // 匿名内部类：…$Index。
+            String nm = s+"$";
+            //普通内部类、静态内部类：…$InnerClassName。
+            String pt = s+"$Inner";
+            //RetroLambda表达式：…$$Lambda$Index。
+            String lambda = s+"$$Lambda$";
+            if(proclassname.equals(s)||proclassname.contains(pt)||proclassname.contains(lambda)){
               res = true;
               break;
             }
@@ -170,7 +177,15 @@ public class DiffAnalyzer {
         return str;
     }
 
-
+    public static void main(String[] args) {
+        String s = "3/com/bilibili/lib/birooo";
+        String t = "com/bilibili/bilibililive/utils/BlinkFullscreenAnimHelper";
+        if(t.contains(s)){
+            System.out.println("success");
+        }else{
+            System.out.println("no");
+        }
+    }
 
     public void reset() {
         currentList.clear();
@@ -204,7 +219,6 @@ public class DiffAnalyzer {
             } else {
                 if (classFile.getName().endsWith(".class")) {
                     try {
-                        System.out.println("sssss");
                         doClass(classFile, type);
                     } catch (IOException e) {
                         e.printStackTrace();
