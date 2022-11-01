@@ -211,7 +211,7 @@ class BranchDiffTask extends DefaultTask {
             result = false;
         }
         //将压缩包解压
-        isopenZip(jacocoExtension.execDir+"/code.zip")
+        isopenZip()
         if(result){
             println ("the ec file is down ok!")
         }else{
