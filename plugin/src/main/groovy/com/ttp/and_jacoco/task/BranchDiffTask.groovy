@@ -5,28 +5,30 @@ import okhttp3.ResponseBody
 import org.gradle.api.tasks.Internal
 import org.jacoco.core.diff.GetinjutClass
 
-import java.net.HttpURLConnection
+
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
-import com.android.utils.FileUtils
+
 import com.ttp.and_jacoco.extension.JacocoExtension
 import com.ttp.and_jacoco.report.ReportGenerator
 import com.ttp.and_jacoco.result.CodeDiffResultVO
 import com.ttp.and_jacoco.result.MethodInfoResultVO
 import com.ttp.and_jacoco.util.Juiutil
-import com.ttp.and_jacoco.util.Utils
+
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import org.codehaus.groovy.runtime.IOGroovyMethods
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.jacoco.core.data.MethodInfo
 import org.jacoco.core.diff.DiffAnalyzer
+
+import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-import java.util.zip.ZipInputStream
+
 
 class BranchDiffTask extends DefaultTask {
     @Internal
@@ -217,47 +219,37 @@ class BranchDiffTask extends DefaultTask {
         }
     }
 
-    def isopenZip(String zipPath){
-        InputStream inputStream
-        ZipInputStream bi
-        OutputStream fileOutputStream
+    def isopenZip(){
+        String sourcePath = jacocoExtension.execDir+"/code.zip"
+        String desPath = jacocoExtension.execDir
         try {
-            //对中文名字进行了处理
-            ZipFile zipFile = new ZipFile(zipPath, Charset.forName("GBK"));
-            String zipFileParentPath = zipFile.getName().substring(0,zipFile.getName().lastIndexOf("\\"));
-            System.out.println(zipFileParentPath);
-
-            //获得压缩包内文件
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-
-            while (entries.hasMoreElements()) {
-                ZipEntry zipEntry = entries.nextElement();
-                //输出文件流   压缩包路径+文件
-                fileOutputStream = new FileOutputStream(zipFileParentPath+"\\" + zipEntry.getName());
-                //写文件
+            ZipFile zipFile = new ZipFile(sourcePath,Charset.forName("utf-8"));
+            System.out.println("found the ECZIP path:"+sourcePath);
+            Enumeration enumeration = zipFile.entries();
+            ZipEntry zipEntry;
+            while(enumeration.hasMoreElements()){
+                zipEntry = (ZipEntry) enumeration.nextElement();
+                System.out.println("the Ec file=>:"+zipEntry.getName());
+                if(zipEntry.isDirectory()){
+                    continue;
+                }
+                File file = new File(desPath+"\\"+zipEntry.getName());
+                if(!file.exists()){
+                    file.createNewFile();
+                }
+                InputStream is = zipFile.getInputStream(zipEntry);
+                FileOutputStream fos = new FileOutputStream(file);
+                int len;
                 byte[] bytes = new byte[1024];
-                int len = 0;
-                while ((len = bi.read(bytes))!=-1){
-                    fileOutputStream.write(bytes,0,len);
+                while ((len=is.read())!=-1){
+                    fos.write(len);
                 }
+                fos.close();
+                is.close();
             }
-        } catch (Exception e) {
+            zipFile.close();
+        }catch (IOException e){
             e.printStackTrace();
-        }finally {
-            try {
-                if (bi!=null){
-                    bi.closeEntry();
-                    bi.close();
-                }
-                if (fileOutputStream!=null){
-                    fileOutputStream.close();
-                }
-                if (inputStream!=null){
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -274,4 +266,5 @@ class BranchDiffTask extends DefaultTask {
         }
         return false
     }
+
 }
