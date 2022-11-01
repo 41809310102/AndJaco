@@ -24,6 +24,9 @@ import org.gradle.api.tasks.TaskAction
 import org.jacoco.core.data.MethodInfo
 import org.jacoco.core.diff.DiffAnalyzer
 import java.util.concurrent.TimeUnit
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import java.util.zip.ZipInputStream
 
 class BranchDiffTask extends DefaultTask {
     @Internal
@@ -196,7 +199,7 @@ class BranchDiffTask extends DefaultTask {
         //默认为flase 即失败
         boolean result = false;
         try {
-            OutputStream os = new FileOutputStream(jacocoExtension.execDir+"/code.ec");
+            OutputStream os = new FileOutputStream(jacocoExtension.execDir+"/code.zip");
             os.write(inputStream.readAllBytes());
             os.close();
             result = true;
@@ -205,12 +208,59 @@ class BranchDiffTask extends DefaultTask {
             e.printStackTrace();
             result = false;
         }
+        //将压缩包解压
+        isopenZip(jacocoExtension.execDir+"/code.zip")
         if(result){
             println ("the ec file is down ok!")
         }else{
             println ("the ec file is down error!")
         }
     }
+
+    def isopenZip(String zipPath){
+        InputStream inputStream
+        ZipInputStream bi
+        OutputStream fileOutputStream
+        try {
+            //对中文名字进行了处理
+            ZipFile zipFile = new ZipFile(zipPath, Charset.forName("GBK"));
+            String zipFileParentPath = zipFile.getName().substring(0,zipFile.getName().lastIndexOf("\\"));
+            System.out.println(zipFileParentPath);
+
+            //获得压缩包内文件
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+
+            while (entries.hasMoreElements()) {
+                ZipEntry zipEntry = entries.nextElement();
+                //输出文件流   压缩包路径+文件
+                fileOutputStream = new FileOutputStream(zipFileParentPath+"\\" + zipEntry.getName());
+                //写文件
+                byte[] bytes = new byte[1024];
+                int len = 0;
+                while ((len = bi.read(bytes))!=-1){
+                    fileOutputStream.write(bytes,0,len);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if (bi!=null){
+                    bi.closeEntry();
+                    bi.close();
+                }
+                if (fileOutputStream!=null){
+                    fileOutputStream.close();
+                }
+                if (inputStream!=null){
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     boolean deleteEmptyDir(File dir) {
         if (dir.isDirectory()) {
             boolean flag = true
