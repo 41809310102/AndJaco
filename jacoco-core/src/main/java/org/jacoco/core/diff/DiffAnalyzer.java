@@ -139,6 +139,9 @@ public class DiffAnalyzer {
 
     public boolean containsClass(String className){
 // com\example\test2\BuildConfig ->  com/example/test2/MainActivity
+        for(String s : diffClass){
+            System.out.println(s);
+        }
         boolean res = false;
         for(String s : diffClass){
             String proclassname = checkname(className);
@@ -152,11 +155,12 @@ public class DiffAnalyzer {
               res = true;
               break;
             }
-        }
-        if(res){
-            System.out.println("============================!======================================!=============");
-            System.out.println("now is compare class is name====> "+className);
-            System.out.println("============================!=======================================!============");
+            if(res){
+                System.out.println("============================!======================================!=============");
+                System.out.println("now is compare class is name====> "+className);
+                System.out.println("now is compare diffclasslist is name====> "+s);
+                System.out.println("============================!=======================================!============");
+            }
         }
         return res;
     }
