@@ -46,7 +46,7 @@ public class DiffAnalyzer {
         return instance;
     }
 
-    public void addMethodInfo(MethodInfo methodInfo, int type) {
+    public void addMethodInfo( MethodInfo methodInfo, int type) {
         if (type == CURRENT) {
             currentList.add(methodInfo);
         } else {
@@ -149,15 +149,14 @@ public class DiffAnalyzer {
             //RetroLambda表达式：…$$Lambda$Index。
             String lambda = s+"$$Lambda$";
             if(proclassname.equals(s)||proclassname.contains(nm)||proclassname.contains(pt)||proclassname.contains(lambda)){
-              res = true;
-            }
-            if(res){
+                res = true;
                 System.out.println("============================!======================================!=============");
                 System.out.println("now is compare class is name====> "+className);
                 System.out.println("now is compare diffclasslist is name====> "+s);
                 System.out.println("============================!=======================================!============");
+                break;
             }
-            break;
+
         }
         return res;
     }
@@ -189,9 +188,18 @@ public class DiffAnalyzer {
     }
 
     public void reset() {
+        for(String s: diffClass){
+            System.out.println("old diffclass have is"+s);
+        }
         currentList.clear();
         branchList.clear();
         diffList.clear();
+        diffClass.clear();
+        if(diffClass.size()==0&&diffList.size()==0){
+            System.out.println("is clean diffclass and difflist");
+        }else{
+            System.out.println("WARNING: the diffclass is dont clean!");
+        }
     }
 
     public Set<MethodInfo> getDiffList() {
