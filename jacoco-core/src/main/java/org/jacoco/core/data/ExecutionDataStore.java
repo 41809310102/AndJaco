@@ -57,7 +57,6 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 			if (entry != null && entry.getProbes().length != data.getProbes().length) {
 				System.out.println("The put is get two classes of html.........................");
 				System.out.println("The Classname is "+className+".............................");
-				entry = null;
 			}
 		}
 		if (entry == null) {

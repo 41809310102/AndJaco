@@ -139,9 +139,6 @@ public class DiffAnalyzer {
 
     public boolean containsClass(String className){
 // com\example\test2\BuildConfig ->  com/example/test2/MainActivity
-        for(String s : diffClass){
-            System.out.println(s);
-        }
         boolean res = false;
         for(String s : diffClass){
             String proclassname = checkname(className);
@@ -151,7 +148,7 @@ public class DiffAnalyzer {
             String pt = s+"$Inner";
             //RetroLambda表达式：…$$Lambda$Index。
             String lambda = s+"$$Lambda$";
-            if(proclassname.equals(s)||proclassname.contains(pt)||proclassname.contains(lambda)){
+            if(proclassname.equals(s)||proclassname.contains(nm)||proclassname.contains(pt)||proclassname.contains(lambda)){
               res = true;
               break;
             }
