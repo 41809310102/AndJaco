@@ -31,8 +31,6 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 
 	private final Map<Long, ExecutionData> entries = new HashMap<Long, ExecutionData>();
 
-	private final Map<String, ExecutionData> classEntries = new HashMap<String, ExecutionData>();
-
 	private final Set<String> names = new HashSet<String>();
 
 	/**
@@ -49,24 +47,13 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 	 */
 	public void put(final ExecutionData data) throws IllegalStateException {
 		final Long id = Long.valueOf(data.getId());
-		ExecutionData entry = entries.get(id);
-		final String className= data.getName();
-		if (entry == null) {
-			entry = classEntries.get(className);
-			// 如果probe不相同 说明是两个同名的class但是内容不相同
-			if (entry != null && entry.getProbes().length != data.getProbes().length) {
-				System.out.println("The put is get two classes of html.........................");
-				System.out.println("The Classname is "+className+".............................");
-			}
-		}
+		final ExecutionData entry = entries.get(id);
 		if (entry == null) {
 			entries.put(id, data);
 			names.add(data.getName());
-			classEntries.put(className, data);
 		} else {
 			try{
 				entry.merge(data);
-				classEntries.put(className, entry);
 			}catch (IllegalStateException e){
 //				e.printStackTrace();
 				if(entry.getSessionInfo()!=null && data.getSessionInfo()!=null){
@@ -79,6 +66,7 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 			}
 		}
 	}
+
 	/**
 	 * Subtracts the probes in the given {@link ExecutionData} object from the
 	 * store. I.e. for all set probes in the given data object the corresponding
@@ -152,7 +140,7 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 	 * @return execution data
 	 */
 	public ExecutionData get(final Long id, final String name,
-                             final int probecount) {
+							 final int probecount) {
 		ExecutionData entry = entries.get(id);
 		if (entry == null) {
 			entry = new ExecutionData(id.longValue(), name, probecount);
