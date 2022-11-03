@@ -150,7 +150,6 @@ public class DiffAnalyzer {
             String lambda = s+"$$Lambda$";
             if(proclassname.equals(s)||proclassname.contains(nm)||proclassname.contains(pt)||proclassname.contains(lambda)){
               res = true;
-              break;
             }
             if(res){
                 System.out.println("============================!======================================!=============");
@@ -158,6 +157,7 @@ public class DiffAnalyzer {
                 System.out.println("now is compare diffclasslist is name====> "+s);
                 System.out.println("============================!=======================================!============");
             }
+            break;
         }
         return res;
     }
