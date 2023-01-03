@@ -12,7 +12,10 @@ class JacocoExtension {
     //exec文件路径，支持多个ec文件，自动合并
     String execDir
     //diff平台接口
+    boolean isdiff
     String gitdiffurl
+    //离线diif不同的文件名
+    String diffpath
     //源码目录，支持多个源码
     List<String> sourceDirectories
     //class目录，支持多个class目录
