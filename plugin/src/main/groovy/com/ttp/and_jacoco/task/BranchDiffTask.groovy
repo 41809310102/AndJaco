@@ -1,5 +1,6 @@
 package com.ttp.and_jacoco.task
 
+import com.alibaba.fastjson.JSONObject
 import okhttp3.Call
 import okhttp3.ResponseBody
 import org.gradle.api.tasks.Internal
@@ -74,7 +75,11 @@ class BranchDiffTask extends DefaultTask {
     //从deff平台获取
     def pullDiffadmin() {
         //发送http请求,url 参数
-        createDiffMethods(syncUploadFiles())
+        if(jacocoExtension.isdiff){
+            createDiffMethods(syncUploadFiles())
+        }else{
+            createDiffMethods(syncUploadFiles0flocal())
+        }
         //获取差异方法
     }
 
@@ -128,6 +133,53 @@ class BranchDiffTask extends DefaultTask {
       //  print("all data to see:" + getdifflist.toString())
         return getdifflist
     }
+
+
+    def syncUploadFiles0flocal(){
+        String path = jacocoExtension.diffpath
+        println("start read json file......")
+        File file = new File(path);
+        FileReader fileReader = new FileReader(file);
+        Reader reader = new InputStreamReader(new FileInputStream(file), "Utf-8");
+        int ch = 0;
+        StringBuffer sb = new StringBuffer();
+        while ((ch = reader.read()) != -1) {
+            sb.append((char) ch);
+        }
+        fileReader.close();
+        reader.close();
+        String jsonStr = sb.toString();
+
+        System.out.println(JSON.parseObject(jsonStr));
+        com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(jsonStr);
+        jsonStr = JSON.toJSONString(jsonObject.get("data"))
+        List<CodeDiffResultVO> passengerDetailsVOS = JSON.parseObject(jsonStr, new TypeReference<List<CodeDiffResultVO>>(){});
+        List<MethodInfo> getdifflist = new LinkedList<>()
+        for(CodeDiffResultVO codeDiffResultVO : passengerDetailsVOS){
+            System.out.println(codeDiffResultVO.getClassFile())
+            String classname = codeDiffResultVO.getClassFile()
+            if(codeDiffResultVO.getMethodInfos().size()>0){
+                for(MethodInfoResultVO res: codeDiffResultVO.getMethodInfos()){
+                    MethodInfo methodInfo = new MethodInfo()
+                    methodInfo.setClassName(classname);
+                    methodInfo.setMethodName(res.getMethodName())
+                    methodInfo.setDesc(Juiutil.diffadminTran(res.getParameters())) //这里保存类的参数信息
+                    getdifflist.add(methodInfo)
+                }
+            }else{
+                MethodInfo methodInfo = new MethodInfo()
+                methodInfo.setClassName(classname);
+                methodInfo.setMethodName("Class") //默认是新的方法，全部标记
+                methodInfo.setDesc("()") //默认无数据
+                getdifflist.add(methodInfo)
+            }
+        }
+        System.out.println("now get diff is ok")
+        System.out.println("difflist size="+getdifflist.size())
+        return getdifflist
+
+    }
+
 
     void readFiles(String dirPath, Closure closure) {
         File file = new File(dirPath);
