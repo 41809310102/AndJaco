@@ -150,10 +150,10 @@ public class DiffAnalyzer {
             String lambda = s+"$$Lambda$";
             if(proclassname.equals(s)||proclassname.contains(nm)||proclassname.contains(pt)||proclassname.contains(lambda)){
                 res = true;
-                System.out.println("============================!======================================!=============");
-                System.out.println("now is compare class is name====> "+className);
-                System.out.println("now is compare diffclasslist is name====> "+s);
-                System.out.println("============================!=======================================!============");
+//                System.out.println("============================!======================================!=============");
+//                System.out.println("now is compare class is name====> "+className);
+//                System.out.println("now is compare diffclasslist is name====> "+s);
+//                System.out.println("============================!=======================================!============");
                 break;
             }
 
