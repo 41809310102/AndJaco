@@ -54,6 +54,7 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 		} else {
 			try{
 				entry.merge(data);
+				System.out.println(data.getSessionInfo().getDumpTimeStamp()+"Ec is margin success");
 			}catch (IllegalStateException e){
 //				e.printStackTrace();
 				if(entry.getSessionInfo()!=null && data.getSessionInfo()!=null){
@@ -61,6 +62,8 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 						System.out.println("old ec data ,remove "+entry);
 						entries.remove(id);
 						entries.put(id, data);
+					}else{
+						System.out.println(data.getSessionInfo().getDumpTimeStamp()+"Ec is margin success");
 					}
 				}
 			}
