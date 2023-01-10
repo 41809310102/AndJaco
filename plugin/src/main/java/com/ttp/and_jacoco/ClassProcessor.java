@@ -97,7 +97,8 @@ public abstract class ClassProcessor {
             int index = path.indexOf(File.separator, path.indexOf(kotlinClass) + kotlinClass.length());
             className = path.substring(index + 1);
         } else {
-            className = fileIn.getName();
+            int index = path.indexOf(File.separator, path.indexOf("com") -3);
+            className = path.substring(index + 1);
         }
         return className;
     }
