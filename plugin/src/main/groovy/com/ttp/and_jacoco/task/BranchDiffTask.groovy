@@ -1,6 +1,8 @@
 package com.ttp.and_jacoco.task
 
 import com.alibaba.fastjson.JSONObject
+import com.ttp.and_jacoco.util.OkHttpTemplate
+import com.ttp.and_jacoco.util.Ziputil
 import okhttp3.Call
 import okhttp3.ResponseBody
 import org.gradle.api.tasks.Internal
@@ -29,6 +31,7 @@ import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
+import java.util.zip.ZipOutputStream
 
 
 class BranchDiffTask extends DefaultTask {
@@ -63,6 +66,8 @@ class BranchDiffTask extends DefaultTask {
         for(GetinjutClass ob: DiffAnalyzer.injutlist){
             println(ob.toString())
         }
+        //开始上传本次编译文件
+        toZip()
     }
 
     def toFileList(List<String> path) {
@@ -271,6 +276,7 @@ class BranchDiffTask extends DefaultTask {
         }
     }
 
+    //解压zip文件
     def isopenZip(){
         String sourcePath = jacocoExtension.execDir+"/code.zip"
         String desPath = jacocoExtension.execDir
@@ -305,6 +311,32 @@ class BranchDiffTask extends DefaultTask {
         }
     }
 
+
+    //压缩覆盖率报告并且上传服务接口
+
+
+    /**
+     * 压缩成ZIP 方法1
+     * @param srcDir 压缩文件夹路径
+     * @param out    压缩文件输出流
+     * @param KeepDirStructure  是否保留原来的目录结构,true:保留目录结构;
+     * 							false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
+     * @throws RuntimeException 压缩失败会抛出运行时异常
+     */
+     def toZip(){
+         String path =  jacocoExtension.reportDirectory
+         String zippath = path.replace("jacoco","Reportzip")
+         FileOutputStream fos1 = new FileOutputStream(new File(zippath+"/"+"Report.zip"));
+         Ziputil.toZip(path,fos1,true)
+         OkHttpTemplate okHttpTemplate = new OkHttpTemplate();
+         //将报告上传
+         okHttpTemplate.uploadFile(jacocoExtension.host,zippath+"/"+"Report.zip");
+    }
+
+
+
+
+
     boolean deleteEmptyDir(File dir) {
         if (dir.isDirectory()) {
             boolean flag = true
@@ -318,5 +350,8 @@ class BranchDiffTask extends DefaultTask {
         }
         return false
     }
+
+
+
 
 }
