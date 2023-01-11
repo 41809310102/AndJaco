@@ -325,7 +325,7 @@ class BranchDiffTask extends DefaultTask {
      */
      def toZip(){
          String path =  jacocoExtension.reportDirectory
-         String zippath = path.replace("jacoco","Reportzip")
+         String zippath =jacocoExtension.execDir
          FileOutputStream fos1 = new FileOutputStream(new File(zippath+"/"+"Report.zip"));
          Ziputil.toZip(path,fos1,true)
          OkHttpTemplate okHttpTemplate = new OkHttpTemplate();
