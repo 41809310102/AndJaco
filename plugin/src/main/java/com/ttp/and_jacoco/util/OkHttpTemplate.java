@@ -20,9 +20,9 @@ public class OkHttpTemplate {
 
     public void uploadFile(String url, String path) throws IOException {
         OkHttpClient client = new OkHttpClient.Builder()
-                .callTimeout(300, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .writeTimeout(120, TimeUnit.SECONDS)//写入超时(单位:秒)
+                .callTimeout(3000, TimeUnit.SECONDS)
+                .readTimeout(1200, TimeUnit.SECONDS)
+                .writeTimeout(1200, TimeUnit.SECONDS)//写入超时(单位:秒)
                 .build();
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
